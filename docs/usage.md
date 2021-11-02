@@ -20,7 +20,7 @@ window.aai.pageView({
 });
 ```
 
-## Custom page custom event
+## Custom custom event
 
 Pass [EventItem](https://github.com/aasaam/analytics-client/blob/master/index.d.ts) to trigger event.
 
