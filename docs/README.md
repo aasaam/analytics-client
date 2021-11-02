@@ -15,7 +15,7 @@
     <a href="https://github.com/aasaam/analytics-client/blob/master/LICENSE">
       <img alt="License" src="https://img.shields.io/github/license/aasaam/analytics-client">
     </a>
-    <a href="https://aasaam.github.io/whois-json/" target="_blank">
+    <a href="https://aasaam.github.io/analytics-client/" target="_blank">
       <img src="https://github.com/aasaam/analytics-client/actions/workflows/docs.yml/badge.svg" alt="docs" />
     </a>
   </p>
