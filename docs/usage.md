@@ -2,9 +2,9 @@
 
 When you initialize the javascript client this object are available on `window`.
 
-## Custom page view event
+## Custom page view
 
-You can disable(or omit) `pv` in `__INITIALIZE_DATA__` and send page view event manually.
+You can disable(or omit) `pv` in `__INITIALIZE_DATA__` and send page view manually.
 
 ```javascript
 window.aai.pageView(); // for manually trigger page view event
@@ -20,7 +20,7 @@ window.aai.pageView({
 });
 ```
 
-## Custom page view event
+## Custom page custom event
 
 Pass [EventItem](https://github.com/aasaam/analytics-client/blob/master/index.d.ts) to trigger event.
 
