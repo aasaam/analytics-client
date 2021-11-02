@@ -9,9 +9,6 @@
     <a href="https://github.com/aasaam/analytics-client/actions/workflows/test.yml" target="_blank">
       <img src="https://github.com/aasaam/analytics-client/actions/workflows/test.yml/badge.svg" alt="Test" />
     </a>
-    <a href="https://david-dm.org/aasaam/analytics-client?type=dev">
-      <img alt="David" src="https://img.shields.io/david/dev/aasaam/analytics-client">
-    </a>
     <a href="https://github.com/aasaam/analytics-client/blob/master/LICENSE">
       <img alt="License" src="https://img.shields.io/github/license/aasaam/analytics-client">
     </a>
