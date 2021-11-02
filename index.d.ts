@@ -113,6 +113,21 @@ interface GetParams {
    * `<main data-id="">`
    */
   mid?: string;
+
+  /**
+   * Project private hash for API and server side usage
+   */
+  ph?: string;
+
+  /**
+   * Client IP address
+   */
+  c_ip?: string;
+
+  /**
+   * Client User Agent string
+   */
+  c_ua?: string;
 }
 
 interface PageData {

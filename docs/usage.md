@@ -2,6 +2,30 @@
 
 When you initialize the javascript client this object are available on `window`.
 
+## Initialize event
+
+You can set initialize event that send with page view event on create instance stage.
+
+```html
+<script>
+  /** @type {EventItem[]} */
+  window.aae = [
+    {
+      ec: 'Event category 1', // {String} required
+      ea: 'Event action 1', // {String} required
+      el: 'Event label 1', // {String} optional
+      ev: 1, // {Number} optional
+    },
+    {
+      ec: 'Event category 2', // {String} required
+      ea: 'Event action 2', // {String} required
+      el: 'Event label 2', // {String} optional
+      ev: 2, // {Number} optional
+    },
+  ];
+</script>
+```
+
 ## Custom page view
 
 You can disable(or omit) `pv` in `__INITIALIZE_DATA__` and send page view manually.
