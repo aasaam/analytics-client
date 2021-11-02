@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "lib": ["ES2015", "DOM"]
+  },
+  "exclude": ["node_modules", "**/node_modules/*", "node_modules/**"]
+}

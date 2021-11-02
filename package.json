@@ -1,0 +1,34 @@
+{
+  "name": "@aasaam/analytics-client",
+  "version": "0.0.0",
+  "description": "JavaScript/AMP/Image/API tracking client for aasaam analytics",
+  "license": "MIT",
+  "sideEffects": false,
+  "types": "./index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "type-check": "tsc --noEmit -p jsconfig.json",
+    "build": "node build.js",
+    "lint": "eslint"
+  },
+  "devDependencies": {
+    "@types/node": "^16",
+    "eslint": "^7",
+    "eslint-plugin-import": "^2",
+    "eslint-plugin-jsx-a11y": "^6",
+    "eslint-plugin-prettier": "^4",
+    "eslint-plugin-react": "^7",
+    "eslint-plugin-react-hooks": "^4",
+    "faker": "^5",
+    "fastify": "^3",
+    "fastify-cookie": "^5",
+    "fastify-cors": "^6",
+    "fastify-static": "^4",
+    "nunjucks": "^3",
+    "prettier": "^2",
+    "typescript": "^4",
+    "uglify-js": "^3"
+  }
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <title>{{ title }} | example site</title>
+    <meta name="description" content="{{ description }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+    <link rel="amphtml" href="{{ ampUrl }}">
+    <meta name="keywords" content="{{ keywords | safe }}">
+    <link rel="canonical" href="{{ canonical }}" />
+    <meta property="og:title" content="{{ ogTitle }}">
+  </head>
+  <body>
+    <ul>
+      <li>
+        <a href="/">
+          /
+        </a>
+      </li>
+{% if (id - 1) >= 1 %}
+      <li>
+        <a href="/?id={{ id - 1 }}&title={{ titleEncoded | safe }}">
+          {{ id - 1 }}
+        </a>
+      </li>
+{% endif %}
+{% if (id > 0) %}
+      <li><span>{{ id }}</span></li>
+{% endif %}
+      <li>
+        <a href="/?id={{ id + 1 }}&title={{ titleEncoded | safe }}">
+          {{ id + 1 }}
+        </a>
+      </li>
+    </ul>
+    <hr />
+    <main data-id="page-{{ id }}">
+      <h1>{{ title }}</h1>
+      <div>
+        <img src="https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg" alt="ویکی پدیا" width="320" />
+        <br />
+        <img src="{{ maxURLPath }}" alt="عکس نمونه" width="320" />
+        <br />
+      </div>
+      <p>{{ description }}</p>
+      <div>{{ content1 | safe }}</div>
+    </main>
+    <div id="ajax"></div>
+    <script>
+      var oReq = new XMLHttpRequest();
+      oReq.open("GET", "/ajax");
+      oReq.onreadystatechange = function() {
+        if (this.readyState == 4) {
+          document.getElementById("ajax").innerHTML = oReq.responseText;
+        }
+      };
+      oReq.send();
+    </script>
+    <hr />
+      <button onclick="aai.pageView()">Resend Page View Event</button>
+    <hr />
+    <noscript><img style="display:none" height="1" width="1" alt="" src="{{ analyticServerURL | safe }}/?{{ noscriptImageNoScript|safe }}"></noscript>
+    <script>{{ script|safe }}</script>
+  </body>
+</html>
