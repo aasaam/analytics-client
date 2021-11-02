@@ -7,8 +7,8 @@ After get config from analytics server assume you have this properties:
 | Key   | Default value | Example value                  | Required | Description                                        |
 | ----- | ------------- | ------------------------------ | -------- | -------------------------------------------------- |
 | `i`   | `undefined`   | `0123456789az`                 | **Yes**  | Project public hash                                |
-| `ph`  | `undefined`   | `0123456789abcdefgh`           | _No_     | Project private hash for api and server side usage |
 | `s`   | `undefined`   | `https://collector.vendor.tld` | **Yes**  | Collector server URL                               |
+| `ph`  | `undefined`   | `0123456789abcdefgh`           | _No_     | Project private hash for api and server side usage |
 | `p`   | `"aai"`       | ``                             | _No_     | Prefix for local storage and cookie                |
 | `pv`  | `undefined`   | `true` or `PageViewPayload`    | _No_     | Initialize instance with page view                 |
 | `nvs` | `3600`        | ``                             | _No_     | New visit state in minutes                         |
@@ -21,7 +21,7 @@ And your page have following properties:
 | --------- | ------------------------------------------------------------------------------ | ---------------------------------------------- | -------- | ----------------------------------------------------------- |
 | `u`       | `window.location.href`                                                         | `https://example.tld/page-1.html?foo=bar#hash` | **Yes**  | Actual URL of page                                          |
 | `r`       | `document.referrer`                                                            | `https://search.tld/`                          | _No_     | Referrer URL                                                |
-| `cn`      | [Canonical link element](https://en.wikipedia.org/wiki/Canonical_link_element) | `https://example.tld/page-1.html`              | _No_     | Referrer URL                                                |
+| `cn`      | [Canonical link element](https://en.wikipedia.org/wiki/Canonical_link_element) | `https://example.tld/page-1.html`              | _No_     | Canonical URL                                               |
 | `mid`     | `document.querySelector('main article').getAttribute('data-id')`               | `page-1`                                       | _No_     | Main identifier represent of main entity identifier of page |
 
 ## Javascript
@@ -43,10 +43,7 @@ There is two script method:
     src="https://collector.vendor.tld/?m=ins&i=0123456789az&u=https%3A%2F%2Fexample.tld%2Fpage-1.html%3Ffoo%3Dbar%23hash&r=https%3A%2F%2Fsearch.tld%2F&cn=https%3A%2F%2Fexample.tld%2Fpage-1.html&mid=page-1"
 /></noscript>
 <script>
-  // script.js or script-modern.js
-  // !(function (i, a, o) {}) ...
-  window,
-    document,
+  // script.js or script-modern.js with __INITIALIZE_DATA__ data replacement
     {
       i: '0123456789az',
       s: 'https://collector.vendor.tld',

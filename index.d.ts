@@ -101,7 +101,7 @@ interface GetParams {
   r?: string;
 
   /**
-   * Canonical URL `<link rel="canonical"`
+   * Canonical URL `<link rel="canonical" href="http://example.tld/page.html">`
    *
    * @see https://en.wikipedia.org/wiki/Canonical_link_element
    */
