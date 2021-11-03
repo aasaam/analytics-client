@@ -125,7 +125,7 @@ This is sample PHP version of event tracking on server side.
  * @param string $category
  * @param string $action
  * @param string $label (optional)
- * @param int|float $value (optional)
+ * @param int $value (optional)
  */
 function sendEvent($category, $action, $label = '', $value = '') {
   $ch = curl_init('https://collector.vendor.tld/?m=api&i=0123456789az&ph=0123456789abcdefgh&c_ip=1.1.1.1&c_ua=Mozilla%2F5.0%20(X11%3B%20Ubuntu%3B%20Linux%20x86_64%3B%20rv%3A93.0)%20Gecko%2F20100101%20Firefox%2F93.0');
@@ -137,7 +137,7 @@ function sendEvent($category, $action, $label = '', $value = '') {
     $event['el'] = $label;
   }
   if (!empty($value)) {
-    $event['ev'] = (double)$value;
+    $event['ev'] = (int)$value;
   }
   curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
     'e' => [
