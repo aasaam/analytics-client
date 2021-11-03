@@ -78,7 +78,9 @@ const pageProps = (req) => {
         parseInt(req.query.id, 10)
       : 0;
 
-  const Referrer = req.headers.Referrer ? req.headers.Referrer : '';
+  /** @type {string} */
+  // @ts-ignore
+  const referrer = req.headers.referrer ? req.headers.referrer : '';
 
   const fakes = fakerSeed(id);
 
@@ -144,7 +146,7 @@ const pageProps = (req) => {
       `m=${encodeURIComponent(modeImgLegacy)}`,
       `i=${encodeURIComponent(publicHashID)}`,
       `u=${encodeURIComponent(pageURL)}`,
-      `r=${encodeURIComponent(Referrer)}`,
+      `r=${encodeURIComponent(referrer)}`,
       `cn=${encodeURIComponent(canonical)}`,
       `mid=${encodeURIComponent(`page-${id}`)}`,
     ].join('&'),
@@ -153,7 +155,7 @@ const pageProps = (req) => {
       `i=${encodeURIComponent(publicHashID)}`,
       `u=${encodeURIComponent(pageURL)}`,
       `cn=${encodeURIComponent(pageURL)}`,
-      `r=${encodeURIComponent(Referrer)}`,
+      `r=${encodeURIComponent(referrer)}`,
       `mid=${encodeURIComponent(`page-${id}`)}`,
     ].join('&'),
   };
