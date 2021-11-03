@@ -60,6 +60,8 @@ There is two script method:
 </script>
 ```
 
+For see possible object keys see [InitializeData](https://github.com/aasaam/analytics-client/blob/master/index.d.ts)
+
 ## AMP
 
 For tracking amp page use following html for track page view:
