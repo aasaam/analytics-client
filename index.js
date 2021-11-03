@@ -762,14 +762,16 @@
   }
 
   if (!window.aai) {
-    var initData;
-    try {
-      initData = JSON.parse(
-        window.atob(document.currentScript.getAttribute('data-i'))
-      );
-      window.aai = window.aasaamAnalytics(initData);
-    } catch (e) {
-      errorLog('initialize', e);
+    if (document.currentScript && document.currentScript.hasAttribute('data-i')) {
+      var initData;
+      try {
+        initData = JSON.parse(
+          window.atob(document.currentScript.getAttribute('data-i'))
+        );
+        window.aai = window.aasaamAnalytics(initData);
+      } catch (e) {
+        errorLog('initialize', e);
+      }
     }
   }
 })(window, document);
