@@ -91,10 +91,10 @@ interface GetParams {
   /**
    * Request mode
    */
-  m?: ModeOfRequest;
+  m: ModeOfRequest;
 
   /**
-   * Referer URL
+   * Referrer URL
    *
    * @see {@link document.referrer}
    */
@@ -195,10 +195,10 @@ interface PageData {
   dpr: string;
 
   /**
-   * Referer URL state for each [new visit state]
+   * Referrer URL state for each [new visit state]
    * If user came from `https://example.tld` all of `rs` is set for all records
    *
-   * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referer
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer
    */
   rs?: string;
 
@@ -257,7 +257,7 @@ interface PageViewPayload {
   mainID?: string;
 
   /**
-   * Referer URL
+   * Referrer URL
    *
    * @see {@link document.referrer}
    */

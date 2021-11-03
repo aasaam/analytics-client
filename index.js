@@ -35,6 +35,7 @@
        * @type {GetParams}
        */
       var defaultPageParams = {
+        m: 'jsp',
         i: initData.i,
         u: window.location.href,
         r: document.referrer,
@@ -420,7 +421,7 @@
           // keywords
           k: undefined,
 
-          // referer state
+          // referrer state
           rs: undefined,
 
           // device pixel ratio
@@ -762,7 +763,10 @@
   }
 
   if (!window.aai) {
-    if (document.currentScript && document.currentScript.hasAttribute('data-i')) {
+    if (
+      document.currentScript &&
+      document.currentScript.hasAttribute('data-i')
+    ) {
       var initData;
       try {
         initData = JSON.parse(

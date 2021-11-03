@@ -78,7 +78,7 @@ const pageProps = (req) => {
         parseInt(req.query.id, 10)
       : 0;
 
-  const referer = req.headers.referer ? req.headers.referer : '';
+  const Referrer = req.headers.Referrer ? req.headers.Referrer : '';
 
   const fakes = fakerSeed(id);
 
@@ -106,11 +106,6 @@ const pageProps = (req) => {
   )}`;
 
   const amp = `${appServerURL}/amp?id=${id}`;
-
-  /**
-   * @type {ModeOfRequest}
-   */
-  const modeImgNoScript = 'ins';
 
   /**
    * @type {ModeOfRequest}
@@ -146,10 +141,10 @@ const pageProps = (req) => {
       pv: true,
     }),
     noscriptImageNoScript: [
-      `m=${encodeURIComponent(modeImgNoScript)}`,
+      `m=${encodeURIComponent(modeImgLegacy)}`,
       `i=${encodeURIComponent(publicHashID)}`,
       `u=${encodeURIComponent(pageURL)}`,
-      `r=${encodeURIComponent(referer)}`,
+      `r=${encodeURIComponent(Referrer)}`,
       `cn=${encodeURIComponent(canonical)}`,
       `mid=${encodeURIComponent(`page-${id}`)}`,
     ].join('&'),
@@ -158,7 +153,7 @@ const pageProps = (req) => {
       `i=${encodeURIComponent(publicHashID)}`,
       `u=${encodeURIComponent(pageURL)}`,
       `cn=${encodeURIComponent(pageURL)}`,
-      `r=${encodeURIComponent(referer)}`,
+      `r=${encodeURIComponent(Referrer)}`,
       `mid=${encodeURIComponent(`page-${id}`)}`,
     ].join('&'),
   };
