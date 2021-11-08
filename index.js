@@ -1,6 +1,4 @@
-'use strict';
 // @ts-check
-
 (async function (window, document) {
   /**
    * @param {String} message

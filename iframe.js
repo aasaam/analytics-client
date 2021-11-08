@@ -1,4 +1,3 @@
-'use strict';
 // @ts-check
 (function (window, document, Date) {
   /**
@@ -36,9 +35,9 @@
   };
 
   /**
-   * @param {String} modeOfClientID
-   * @param {Date?} [initDate]
-   * @param {String?} [random]
+   * @param {String} [modeOfClientID]
+   * @param {Date} [initDate]
+   * @param {String} [random]
    */
   var generateClientIdentifier = function generateClientIdentifier(
     modeOfClientID,
@@ -157,6 +156,7 @@
         if (dayVisitDate < newVisitDateTime) {
           // generate new one base on random and same initialize visit
           clientIdentifier = generateClientIdentifier(
+            // @ts-ignore
             modeOfClientID,
             // @ts-ignore
             initVisitDate,

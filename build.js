@@ -5,7 +5,7 @@ const amp = require('./amp.json');
 
 const showFileSize = (name) => {
   const { size } = statSync(`${__dirname}/dist/${name}`);
-  console.log(`Size of ${name} is ${size} Byte`);
+  console.log(`Size of ${name} is ${size} Bytes`);
 };
 
 const commands = [
