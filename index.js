@@ -1,3 +1,4 @@
+'use strict';
 // @ts-check
 
 (async function (window, document) {
@@ -44,7 +45,7 @@
       /**
        * @var {Number}
        */
-      var newVisitTime = initData.nvs ? initData.nvs * 1000 : 3600;
+      var newVisitTime = initData.nvs ? initData.nvs : 3600;
 
       /**
        * @var {String}
@@ -205,7 +206,7 @@
        * @returns {Boolean}
        */
       var isString = function isString(value) {
-        const type = typeof value;
+        var type = typeof value;
         return (
           type === 'string' ||
           (type === 'object' &&
@@ -216,15 +217,54 @@
       };
 
       /**
+       * @returns {Promise<String|undefined>}
+       */
+      var crossClientIdentifier = async function crossClientIdentifier() {
+        return new Promise(function (resolve) {
+          var iframe = document.createElement('iframe');
+          iframe.src =
+            initData.s +
+            '/i.html?u=' +
+            encode(window.location.href) +
+            '&nvs=' +
+            newVisitTime;
+          iframe.setAttribute('aria-hidden', 'true');
+          iframe.width = '0';
+          iframe.tabindex = '-1';
+          iframe.height = '0';
+          iframe.style.display = 'none';
+          iframe.style.visibility = 'hidden';
+          iframe.style.border = 'none';
+          document.body.appendChild(iframe);
+          var timer = setTimeout(function () {
+            resolve(undefined);
+          }, 1000);
+          window.addEventListener(
+            'message',
+            function (event) {
+              clearTimeout(timer);
+              if (event.data && event.data.aasaamAnalyticsClientIdentifier) {
+                resolve(event.data.aasaamAnalyticsClientIdentifier);
+              }
+            },
+            true
+          );
+        });
+      };
+
+      /**
+       * @param {String} modeOfClientID
        * @param {Date?} [initDate]
        * @param {String?} [random]
        */
       var generateClientIdentifier = function generateClientIdentifier(
+        modeOfClientID,
         initDate,
         random
       ) {
         return window.btoa(
           [
+            modeOfClientID ? modeOfClientID : 't',
             Math.round(
               initDate ? initDate.getTime() / 1000 : new Date().getTime() / 1000
             ).toString(),
@@ -236,33 +276,36 @@
 
       /**
        * @param {String} cid
-       * @returns {[Date|Boolean, Date|Boolean, String|Boolean]}
+       * @returns {[String|Boolean, Date|Boolean, Date|Boolean, String|Boolean]}
        */
       var parseClientIdentifierCreationTime =
         function parseClientIdentifierCreationTime(cid) {
           try {
             var matchedTimePart = window
               .atob(cid)
-              .match(new RegExp('([a-z0-9]+):([a-z0-9]+):([a-z0-9]+)'));
+              .match(
+                new RegExp('([a-z]{1}):([a-z0-9]+):([a-z0-9]+):([a-z0-9]+)')
+              );
             if (matchedTimePart) {
               return [
-                new Date(parseInt(matchedTimePart[1], 10)),
-                new Date(parseInt(matchedTimePart[2], 10)),
-                matchedTimePart[3],
+                matchedTimePart[1],
+                new Date(parseInt(matchedTimePart[2], 10) * 1000),
+                new Date(parseInt(matchedTimePart[3], 10) * 1000),
+                matchedTimePart[4],
               ];
             }
           } catch (e) {
             errorLog('cannot parse client id', e);
           }
 
-          return [false, false, false];
+          return [false, false, false, false];
         };
 
       /**
        * @param {String} cid
        */
       var setClientIdentifier = function setClientIdentifier(cid) {
-        const expires = new Date();
+        var expires = new Date();
         expires.setDate(expires.getDate() + 365);
         document.cookie =
           storagePrefix +
@@ -270,7 +313,7 @@
           cid +
           ';Expires=' +
           expires.toUTCString() +
-          ';Path=/;SameSite=lax';
+          ';Path=/;SameSite=Lax';
         localStorage.setItem(storagePrefix, cid);
       };
 
@@ -332,14 +375,14 @@
        */
       var getWindowPerformance = async function getWindowPerformance() {
         return new Promise(function (resolve) {
-          const timingInfo = window.performance;
+          var timingInfo = window.performance;
           setTimeout(() => {
             // @ts-ignore
             if (!timingInfo || timingInfo.navigationStart === 0) {
               return resolve(undefined);
             }
             resolve(timingInfo.toJSON());
-          }, 100);
+          }, 200);
         });
       };
 
@@ -654,31 +697,59 @@
        */
       var clientIdentifier = getClientIdentifier();
 
+      /**
+       * @var {Boolean}
+       */
+      var needNewClientIdentifier = true;
+
       // exist
       if (clientIdentifier) {
         var clientParted = parseClientIdentifierCreationTime(clientIdentifier);
-        var initVisitDate = clientParted[0];
-        var dayVisitDate = clientParted[1];
-        var randomPart = clientParted[2];
-        var newVisitDateTime = new Date();
-        newVisitDateTime.setTime(
-          newVisitDateTime.getTime() - newVisitTime * 1000
-        );
-        // if user not seen page tody
-        if (dayVisitDate < newVisitDateTime) {
-          // generate new one base on random and same initialize visit
-          clientIdentifier = generateClientIdentifier(
-            // @ts-ignore
-            initVisitDate,
-            randomPart
+        if (clientParted.length === 4 && clientParted[0] !== false) {
+          needNewClientIdentifier = false;
+          var clientParted =
+            parseClientIdentifierCreationTime(clientIdentifier);
+          var modeOfClientID = clientParted[0];
+          var initVisitDate = clientParted[1];
+          var dayVisitDate = clientParted[2];
+          var randomPart = clientParted[3];
+          var newVisitDateTime = new Date();
+          newVisitDateTime.setTime(
+            newVisitDateTime.getTime() - newVisitTime * 1000
           );
-          // set to storage
-          setClientIdentifier(clientIdentifier);
+          // if user not seen page tody
+          if (dayVisitDate < newVisitDateTime) {
+            // generate new one base on random and same initialize visit
+            clientIdentifier = generateClientIdentifier(
+              modeOfClientID,
+              // @ts-ignore
+              initVisitDate,
+              randomPart
+            );
+            // set to storage
+            setClientIdentifier(clientIdentifier);
+            // update from cross identifier
+            crossClientIdentifier().then(function (crossCID) {
+              if (crossCID) {
+                clientIdentifier = crossCID;
+                setClientIdentifier(crossCID);
+              }
+            });
+          }
         }
-      } else {
-        // new one
+      }
+
+      // new client identifier required
+      if (needNewClientIdentifier) {
         clientIdentifier = generateClientIdentifier();
         setClientIdentifier(clientIdentifier);
+        // update from cross identifier
+        crossClientIdentifier().then(function (crossCID) {
+          if (crossCID) {
+            clientIdentifier = crossCID;
+            setClientIdentifier(crossCID);
+          }
+        });
       }
 
       /**

@@ -11,14 +11,18 @@ const faker = require('faker');
 faker.locale = 'fa';
 
 const publicHashID = '000000000000';
-const analyticServerURL = 'https://localhost:5001';
-const appServerURL = 'https://127.0.0.1:5000';
+const analyticServerURL = 'https://127.0.0.1:5001';
+const appServerURL = 'https://localhost:5000';
 
 let scriptTagTemplate = readFileSync(`${__dirname}/../script.js`, {
   encoding: 'utf8',
 });
 
 let analyticsScript = readFileSync(`${__dirname}/../index.js`, {
+  encoding: 'utf8',
+});
+
+let iframeScript = readFileSync(`${__dirname}/../iframe.js`, {
   encoding: 'utf8',
 });
 
@@ -33,12 +37,20 @@ if (process.env.RUN_DIST_MODE) {
   analyticsScript = readFileSync(`${__dirname}/../dist/index.js`, {
     encoding: 'utf8',
   });
+  iframeScript = readFileSync(`${__dirname}/../dist/iframe.js`, {
+    encoding: 'utf8',
+  });
   ampScriptTemplate = readFileSync(`${__dirname}/../dist/amp.json`, {
     encoding: 'utf8',
   });
 }
 
 const svgSample = `<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="480" height="543.03" viewBox="0 0 257.002 297.5" xml:space="preserve"><path d="m25.755 208.22-6.824 3.84V85.434l6.824 3.84V208.22z"/><path d="M128.501 267.484v8.102l-109.57-63.527 6.824-3.838L128.5 267.484z"/><path d="m231.252 208.22 6.82 3.84L128.5 275.585v-8.102l102.75-59.263z"/><path d="m231.252 89.274 6.82-3.839V212.06l-6.82-3.838V89.274z"/><path d="M128.501 30.011v-8.098l109.57 63.522-6.82 3.84-102.75-59.264zM25.755 89.274l-6.824-3.839L128.5 21.913v8.098L25.755 89.274z"/></svg>`;
+
+const gifSingle = Buffer.from(
+  'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+  'base64'
+);
 
 const maxURLTest = 32 * 1024;
 const maxURLPath = `/img${'0'.repeat(maxURLTest - 4)}`;
@@ -58,6 +70,12 @@ const nunjucks = nunjucksRuntime.configure(`${__dirname}/templates`, {
 const fakerSeed = (id) => {
   faker.seed(id);
   return faker;
+};
+
+const randomString = () => {
+  return (
+    new Date().getTime().toString(32) + Math.random().toString(32).substr(2)
+  ).substr(0, 16);
 };
 
 const getScriptTag = (initData) => {
@@ -172,6 +190,9 @@ module.exports = {
   scriptTagTemplate,
   analyticsScript,
   nunjucks,
+  gifSingle,
+  iframeScript,
+  randomString,
   maxURLTest,
   maxURLPath,
   getScriptTag,

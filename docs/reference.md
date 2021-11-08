@@ -84,7 +84,7 @@ Type of request exist with `m` in URL, at GET parameters.
     // screen orientation
     "so": "l-p",
     // referrer url for store referrer that save until nvs (New visit state in minutes); default is 3600 seconds
-    "rs": "l-p",
+    "rs": "https://another-website.tld/",
 
     // geo location
     "geo": {
@@ -102,7 +102,7 @@ Type of request exist with `m` in URL, at GET parameters.
       "ec": "Event category", // {String} required
       "ea": "Event action", // {String} required
       "el": "Event label", // {String} optional
-      "ev": 64 // {Number} optional
+      "ev": 64 // {Number(Integer)} optional
     }
     // ...
   ]

@@ -13,6 +13,8 @@ const commands = [
   `mkdir -p ${__dirname}/dist`,
   `${__dirname}/node_modules/.bin/uglifyjs --compress --mangle -- index.js > ${__dirname}/dist/index.js`,
   `truncate -s -1 ${__dirname}/dist/index.js`,
+  `${__dirname}/node_modules/.bin/uglifyjs --compress --mangle -- iframe.js > ${__dirname}/dist/iframe.js`,
+  `truncate -s -1 ${__dirname}/dist/iframe.js`,
   `${__dirname}/node_modules/.bin/uglifyjs --compress --mangle -- script.js > ${__dirname}/dist/script.js`,
   `${__dirname}/node_modules/.bin/uglifyjs --compress --mangle -- script-modern.js > ${__dirname}/dist/script-modern.js`,
   `truncate -s -1 ${__dirname}/dist/script.js`,
@@ -28,5 +30,6 @@ writeFileSync(`${__dirname}/dist/amp.json`, JSON.stringify(amp).trim(), {
 showFileSize('index.js');
 showFileSize('script.js');
 showFileSize('script-modern.js');
+showFileSize('iframe.js');
 showFileSize('amp.json');
 

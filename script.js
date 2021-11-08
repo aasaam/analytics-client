@@ -83,5 +83,5 @@
       });
     });
   }
-  // @ts-ignore
+// @ts-ignore
 )(window, document, __INITIALIZE_DATA__);

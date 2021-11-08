@@ -7,11 +7,15 @@ const {
   fastifyCors,
   analyticsScript,
   ampScript,
+  randomString,
+  nunjucks,
+  iframeScript,
+  gifSingle,
 } = require('./common');
 
 module.exports = async () => {
   const app = fastify({
-    logger: true,
+    logger: false,
     http2: true,
     maxParamLength: 32 * 1024,
     https: {
@@ -23,11 +27,11 @@ module.exports = async () => {
 
   app.register(fastifyCors, {
     origin: true,
-    methods: ['GET', 'POST'],
   });
 
   app.all('/', (req, reply) => {
     reply.status(204);
+    console.log('-'.repeat(80));
     console.group(`request ${req.id}`);
     console.log({
       ua: req.headers['user-agent'],
@@ -43,6 +47,16 @@ module.exports = async () => {
     reply
       .header('content-type', 'application/javascript')
       .send(analyticsScript);
+  });
+
+  app.get('/i.html', (req, reply) => {
+    setTimeout(() => {
+      reply.header('content-type', 'text/html; charset=utf-8').send(
+        nunjucks.render('iframe.njk', {
+          script: iframeScript,
+        })
+      );
+    }, (Math.floor(Math.random() * 3) + 1) * 100);
   });
 
   app.get('/amp.json', (req, reply) => {
