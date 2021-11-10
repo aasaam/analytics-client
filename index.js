@@ -228,7 +228,7 @@
             newVisitTime;
           iframe.setAttribute('aria-hidden', 'true');
           iframe.width = '0';
-          iframe.tabindex = '-1';
+          iframe.tabIndex = -1;
           iframe.height = '0';
           iframe.style.display = 'none';
           iframe.style.visibility = 'hidden';
@@ -251,7 +251,7 @@
       };
 
       /**
-       * @param {String} modeOfClientID
+       * @param {String?} [modeOfClientID]
        * @param {Date?} [initDate]
        * @param {String?} [random]
        */
@@ -719,6 +719,7 @@
           if (dayVisitDate < newVisitDateTime) {
             // generate new one base on random and same initialize visit
             clientIdentifier = generateClientIdentifier(
+              // @ts-ignore
               modeOfClientID,
               // @ts-ignore
               initVisitDate,
