@@ -752,6 +752,13 @@
       }
 
       /**
+       * @returns {String}
+       */
+      instance.getClient = function getClient() {
+        return clientIdentifier;
+      };
+
+      /**
        * @param {PageViewPayload} [payload]
        * @returns {Promise<aasaamAnalyticsInstance>}
        */
@@ -810,6 +817,77 @@
         } else {
           eventSender();
         }
+        return instance;
+      };
+
+      /**
+       * @param {EventItem} payload
+       * @param {String} projectPublicHash
+       * @returns {aasaamAnalyticsInstance}
+       */
+      instance.crossEvent = function crossEvent(payload, projectPublicHash) {
+        if (!isString(payload.category) || payload.category.length < 1) {
+          errorLog(
+            'Event "category" must exist and none empty string',
+            payload
+          );
+          return instance;
+        }
+        if (!isString(payload.action) || payload.action.length < 1) {
+          errorLog('Event "action" must exist and none empty string', payload);
+          return instance;
+        }
+        if (payload.label !== undefined && !isString(payload.label)) {
+          errorLog('Event "label" must be none empty string', payload);
+          return instance;
+        }
+        // label default value is hostname
+        if (payload.label === undefined && window.location.hostname) {
+          payload.label = window.location.hostname;
+        }
+        if (payload.value !== undefined && isNaN(payload.value)) {
+          errorLog('Event "value" must be numeric type', payload);
+          return instance;
+        }
+        var i = '';
+        if (projectPublicHash) {
+          i = projectPublicHash;
+        } else if (initData.cei) {
+          i = initData.cei;
+        } else {
+          errorLog('Cross project public hash not set');
+          return instance;
+        }
+        var pageData = undefined;
+        if (defaultPageData.cd) {
+          pageData = {
+            scr: defaultPageData.scr,
+            vps: defaultPageData.vps,
+            cd: defaultPageData.cd,
+            dpr: defaultPageData.dpr,
+            if: defaultPageData.if,
+            so: defaultPageData.so,
+            prf: defaultPageData.prf,
+            geo: defaultPageData.geo,
+          };
+        }
+        window.navigator.sendBeacon(
+          initData.s +
+            '/?m=jse&i=' +
+            encodeURIComponent(i) +
+            JSON.stringify({
+              c: clientIdentifier,
+              p: pageData,
+              e: [
+                {
+                  ec: payload.category,
+                  ea: payload.action,
+                  el: payload.label ? payload.label : undefined,
+                  ev: payload.value !== undefined ? payload.value : undefined,
+                },
+              ],
+            })
+        );
         return instance;
       };
 

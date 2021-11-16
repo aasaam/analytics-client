@@ -55,8 +55,40 @@ There is two script method:
       // geo: true, // ask user for geo location data
       pv: true,
       s: 'https://collector.vendor.tld',
-      i: '0123456789az'
+      cei: '000000000001',
+      i:   '0123456789az'
     };
+</script>
+
+<script>
+  // set event for your project
+  if (window.aai) {
+    window.aai.event({
+      category: 'Event category', // {String} required
+      action: 'Event action', // {String} required
+      label: 'Event label', // {String} optional
+      value: 64, // {Number} optional
+    });
+
+    // set event for integrated cross project
+    window.aai.crossEvent({
+      category: 'Event category', // {String} required
+      action: 'Event action', // {String} required
+      label: 'Event label', // {String} optional
+      value: 64, // {Number} optional
+    });
+
+    // set event for special integrated cross project
+    window.aai.crossEvent(
+      {
+        category: 'Event category', // {String} required
+        action: 'Event action', // {String} required
+        label: 'Event label', // {String} optional
+        value: 64, // {Number} optional
+      },
+      '000000000002' // special project
+    );
+  }
 </script>
 ```
 

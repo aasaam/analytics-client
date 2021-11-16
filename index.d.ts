@@ -322,6 +322,11 @@ interface InitializeData {
   i: string;
 
   /**
+   * Cross event project public hash
+   */
+  cei?: string;
+
+  /**
    * Collector server URL
    */
   s: string;
@@ -366,7 +371,8 @@ declare function aasaamAnalytics(
 
 interface aasaamAnalyticsInstance {
   pageView(payload?: PageViewPayload): Promise<aasaamAnalyticsInstance>;
-  event(ev?: EventItem): aasaamAnalyticsInstance;
+  event(ev: EventItem): aasaamAnalyticsInstance;
+  crossEvent(ev: EventItem, i?: string): aasaamAnalyticsInstance;
 }
 
 interface Window {
