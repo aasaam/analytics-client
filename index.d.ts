@@ -235,7 +235,7 @@ type PageBreadcrumbList = PageBreadcrumbItem[];
 
 type AnalyticsRequestMode =
   /**
-   * PageView (1-50)
+   * PageView
    */
   // PageViewJavaScript
   | 'pv_js'
@@ -248,7 +248,7 @@ type AnalyticsRequestMode =
   // PageViewAMPImage
   | 'pv_amp_i'
   /**
-   * Event (50-100)
+   * Event
    */
   // EventJSInPageView
   | 'e_js_pv'

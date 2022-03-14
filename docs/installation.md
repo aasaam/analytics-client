@@ -12,10 +12,9 @@ This method is default behavior for analytics that collect page view and events 
 
 ### Add script
 
-First you need add script into your webpage with. There are two version, modern and normal. Modern script tag is smaller script tag but support only modern browser.
+First you need add script into your webpage with.
 
 - [script.js](https://raw.githubusercontent.com/aasaam/analytics-client/master/dist/script.js)
-- [script-modern](https://raw.githubusercontent.com/aasaam/analytics-client/master/dist/script-modern.js)
 
 And replace `__INITIALIZE_DATA__` with [InitializeData](/reference?id=initializedata).
 
