@@ -1,15 +1,17 @@
 // @ts-check
 
+const util = require('util');
+
 const {
   tlsPrivateKey,
   tlsPublicKey,
   fastify,
   fastifyCors,
   analyticsScript,
+  analyticsLegacyScript,
   ampScript,
   randomString,
   nunjucks,
-  iframeScript,
   gifSingle,
 } = require('./common');
 
@@ -30,17 +32,40 @@ module.exports = async () => {
   });
 
   app.all('/', (req, reply) => {
-    reply.status(204);
+    reply.status(200);
+    reply.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+    reply.header('Pragma', 'no-cache');
+    reply.header('Expires', '0');
     console.log('-'.repeat(80));
     console.group(`request ${req.id}`);
-    console.log({
-      ua: req.headers['user-agent'],
-      l: req.url.length,
-      query: req.query,
-      body: req.body,
-    });
+    let body = req.body;
+    if (req.method === 'POST') {
+      // @ts-ignore
+      body = JSON.parse(body);
+    }
+
+    console.log(
+      util.inspect(
+        {
+          ua: req.headers['user-agent'],
+          method: req.method,
+          l: req.url.length,
+          query: JSON.parse(JSON.stringify(req.query)),
+          body,
+        },
+        { showHidden: false, depth: null, colors: true }
+      )
+    );
+
+    console.log();
     console.groupEnd();
-    reply.send('');
+    // @ts-ignore
+    if (['pv_il', 'pv_ins', 'pv_amp_i'].includes(req.query.m)) {
+      reply.header('Content-Type', 'image/gif');
+      reply.send(gifSingle);
+    } else {
+      reply.send('');
+    }
   });
 
   app.get('/a.js', (req, reply) => {
@@ -49,14 +74,10 @@ module.exports = async () => {
       .send(analyticsScript);
   });
 
-  app.get('/i.html', (req, reply) => {
-    setTimeout(() => {
-      reply.header('content-type', 'text/html; charset=utf-8').send(
-        nunjucks.render('iframe.njk', {
-          script: iframeScript,
-        })
-      );
-    }, (Math.floor(Math.random() * 3) + 1) * 100);
+  app.get('/l.js', (req, reply) => {
+    reply
+      .header('content-type', 'application/javascript')
+      .send(analyticsLegacyScript);
   });
 
   app.get('/amp.json', (req, reply) => {

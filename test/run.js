@@ -16,18 +16,19 @@ const appAnalyticsMaker = require('./app-analytics');
     root: path.join(__dirname, '/../docs'),
   });
 
-  const appTest = await appTestMaker();
-  const appAnalytics = await appAnalyticsMaker();
-
-  appTest.listen(5000, '0.0.0.0', (e) => {
-    console.error(e);
+  (await appTestMaker()).listen(5000, '0.0.0.0', (e) => {
+    if (e) {
+      console.error(e);
+    }
   });
 
-  appAnalytics.listen(5001, '0.0.0.0', (e) => {
-    console.error(e);
+  (await appAnalyticsMaker()).listen(7000, '0.0.0.0', (e) => {
+    if (e) {
+      console.error(e);
+    }
   });
 
-  docs.listen(5002, '0.0.0.0', (e) => {
+  docs.listen(8000, '0.0.0.0', (e) => {
     console.error(e);
   });
 })();

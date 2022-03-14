@@ -2,6 +2,5 @@
 
 - [Home](/)
 - [Installation](installation.md)
-- [Usage](usage.md)
 - [Best Practices](best-practices.md)
 - [Reference](reference.md)

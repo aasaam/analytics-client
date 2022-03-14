@@ -1,14 +1,21 @@
 {
   "requests": {
-    "pageView": "__COLLECTOR_URL__/?m=amp&i=${i}&u=${ampdocUrl}&r=${documentReferrer}&cn=${canonicalUrl}&mid=${mid}"
+    "pageView": "__COLLECTOR_URL__/?m=pv_amp&i=${i}"
   },
   "extraUrlParams": {
-    "c": "${clientId(cid-aai)}",
+    "cid_amp": "${clientId(aa_amp_std)}",
     "p": {
+      "u": "${ampdocUrl}",
+      "t": "${t}",
+      "l": "${l}",
+      "cu": "${canonicalUrl}",
+      "ei": "${ei}",
+      "em": "${em}",
+      "et": "${et}",
+      "r": "${documentReferrer}",
       "scr": "${screenWidth}x${screenHeight}",
       "vps": "${viewportWidth}x${viewportHeight}",
       "cd": "${screenColorDepth}",
-      "t": "${t}",
       "k": "${k}",
       "usr": "${usr}",
       "prf": {
