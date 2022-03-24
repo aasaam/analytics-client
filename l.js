@@ -1,5 +1,10 @@
 // @ts-check
-(function (window, document) {
+(function (
+  /** @type {Window} */
+  window,
+  /** @type {Document} */
+  document
+) {
   /**
    * @param {any} anyValue
    */
@@ -77,6 +82,8 @@
     imgTag.alt = '';
     firstScript.parentNode.insertBefore(imgTag, firstScript);
     imgTag.onload = function () {
+      delete window.aai_lid;
+      window.aai_lid = undefined;
       imgTag.parentNode.removeChild(imgTag);
     };
   } catch (e) {

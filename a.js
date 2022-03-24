@@ -1,5 +1,18 @@
 // @ts-check
-(function (window, document, performance, navigator, console, localStorage) {
+(function (
+  /** @type {Window} */
+  window,
+  /** @type {Document} */
+  document,
+  /** @type {Performance} */
+  performance,
+  /** @type {Navigator} */
+  navigator,
+  /** @type {Console} */
+  console,
+  /** @type {Storage} */
+  localStorage
+) {
   if (!window.aasaamAnalytics) {
     const debugMode = localStorage.getItem('aasaam-analytics:debug') === 'on';
 
@@ -488,7 +501,7 @@
     const cidParse = function cidParse(cidString) {
       try {
         const matchedParts = window.atob(cidString).match(
-          // mode:initDate:sessionDate:random:props
+          // initDate:sessionDate:random
           new RegExp('^([0-9]+):([0-9]+):([a-z0-9]{16})$')
         );
         if (matchedParts) {

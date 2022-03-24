@@ -7,7 +7,7 @@ const fastifyCors = require('fastify-cors').default;
 const fastifyCookie = require('fastify-cookie');
 
 const nunjucksRuntime = require('nunjucks');
-const faker = require('@faker-js/faker');
+const faker = require('@faker-js/faker').default;
 
 const publicHashID = '000000000000';
 let analyticServerURL = 'https://collector.aasaam-analytics.gw:7000';
