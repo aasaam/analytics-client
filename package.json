@@ -18,7 +18,7 @@
     "lint": "eslint"
   },
   "devDependencies": {
-    "@faker-js/faker": "^5.5.3",
+    "@faker-js/faker": "^6.0.0",
     "@types/node": "^17",
     "eslint": "^8",
     "eslint-plugin-import": "^2",
