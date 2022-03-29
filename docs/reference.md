@@ -26,6 +26,12 @@ It's `String` that define which mode of analytics will be send into analytics se
 | `e_api`   | Event from another server/service that send to collector |
 | `e_o`     | Event from other method like mobile application          |
 
+## Specials
+
+| Key   | Description     |
+| ----- | --------------- |
+| `err` | Error reporting |
+
 ## PublicInstanceID
 
 It's `String` that define project public instance id that usually is `/^[a-zA-Z0-9]{12}$/`. All data will store for project with this unique string.

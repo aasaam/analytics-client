@@ -13,30 +13,46 @@
   /** @type {Storage} */
   localStorage
 ) {
+  const collectorURL = '__COLLECTOR_URL__';
+  let publicInstanceID = '';
+
+  /**
+   * @param {String} message
+   * @param {Error|any} err
+   */
+  const errorLog = function errorLog(message, err) {
+    console.group('aasaam-analytics:error:' + message);
+    if (err instanceof Error) {
+      console.error(err);
+    } else if (err) {
+      console.warn(err);
+    }
+    console.groupEnd();
+    const sendURL = new URL(collectorURL);
+    sendURL.searchParams.set('m', 'err');
+    sendURL.searchParams.set('i', publicInstanceID);
+    sendURL.searchParams.set('u', window.location.href);
+    navigator.sendBeacon(
+      sendURL.toString(),
+      JSON.stringify({
+        msg: message,
+        err: err
+          ? JSON.stringify(err, Object.getOwnPropertyNames(err))
+          : undefined,
+      })
+    );
+  };
+
   if (!window.aasaamAnalytics) {
     const debugMode = localStorage.getItem('aasaam-analytics:debug') === 'on';
 
     /**
      * @param  {any} o
      */
-    const debugLog = function errorLog(o) {
+    const debugLog = function debugLog(o) {
       if (debugMode) {
         console.debug(o);
       }
-    };
-
-    /**
-     * @param {String} message
-     * @param {Error|any} err
-     */
-    const errorLog = function errorLog(message, err) {
-      console.group('aasaam-analytics:error:' + message);
-      if (err instanceof Error) {
-        console.error(err);
-      } else if (err) {
-        console.warn(err);
-      }
-      console.groupEnd();
     };
 
     /**
@@ -809,6 +825,9 @@
      * @returns {aasaamAnalyticsInstance}
      */
     window.aasaamAnalytics = function aasaamAnalytics(initializeData) {
+      // update public instance id
+      publicInstanceID = initializeData.i;
+
       /**
        * @type {aasaamAnalyticsInstance}
        */
@@ -891,8 +910,8 @@
       };
 
       const geoCacheSuccessKey = 'gs';
-      /** @type {GeographyData} */
 
+      /** @type {GeographyData} */
       let geo = sanitizeGeographyData(
         storageGet(storagePrefix, geoCacheSuccessKey)
       );
@@ -902,12 +921,13 @@
        * @param {AnalyticsRequestPOST} postParameters
        */
       const sendData = function sendData(getParameters, postParameters) {
-        const sendURL = new URL(initializeData.s);
+        const sendURL = new URL(collectorURL);
 
         Object.entries(getParameters).forEach(function (i) {
           sendURL.searchParams.set(i[0], i[1]);
         });
-        window.navigator.sendBeacon(
+
+        navigator.sendBeacon(
           sendURL.toString(),
           JSON.stringify(postParameters)
         );
@@ -1031,7 +1051,7 @@
          */
         {
           let referrer = document.referrer;
-          if (payload.r && isValidURL(referrer)) {
+          if (payload.r && isValidURL(payload.r)) {
             referrer = payload.r;
           }
           pageData.r = referrer;
@@ -1052,10 +1072,8 @@
         /**
          * breadcrumb
          */
-        {
-          if (payload.bc) {
-            pageData.bc = breadcrumbProcess(payload.bc);
-          }
+        if (payload.bc) {
+          pageData.bc = breadcrumbProcess(payload.bc);
         }
 
         /**
@@ -1340,7 +1358,7 @@
           )
         );
       } catch (e) {
-        console.error('aasaam-analytics:initialize-error:', e);
+        errorLog('aasaam-analytics:initialize-error:', e);
       }
     }
   }

@@ -57,6 +57,16 @@ const ampScript = ampScriptTemplate.replace(
   analyticServerURL
 );
 
+analyticsScript = analyticsScript.replace(
+  '__COLLECTOR_URL__',
+  analyticServerURL
+);
+
+analyticsLegacyScript = analyticsLegacyScript.replace(
+  '__COLLECTOR_URL__',
+  analyticServerURL
+);
+
 const tlsPrivateKey = readFileSync(join(__dirname, 'cert/hosts-key.pem'));
 const tlsPublicKey = readFileSync(join(__dirname, 'cert/server.pem'));
 

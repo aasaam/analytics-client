@@ -5,24 +5,54 @@
   /** @type {Document} */
   document
 ) {
+  var collectorURL = '__COLLECTOR_URL__';
+  var publicInstanceID = '';
+
   /**
    * @param {any} anyValue
    */
   var errorLog = function errorLog(anyValue) {
+    // console log if exist
     if ('console' in window) {
       console.group('aasaam-analytics:legacy-script');
       console.error(anyValue);
       console.groupEnd();
     }
+
+    // send error if possible
+    if ('JSON' in window && 'XMLHttpRequest' in window) {
+      var xmlHTTPReq = new XMLHttpRequest();
+      var targetURL =
+        collectorURL +
+        '/?m=err&i=' +
+        publicInstanceID +
+        '&u=' +
+        encodeURIComponent(window.location.href);
+      xmlHTTPReq.open('POST', targetURL);
+      xmlHTTPReq.setRequestHeader(
+        'Content-Type',
+        'application/json;charset=UTF-8'
+      );
+      xmlHTTPReq.send(
+        JSON.stringify({
+          msg: 'legacy-script',
+          err: anyValue
+            ? JSON.stringify(anyValue, Object.getOwnPropertyNames(anyValue))
+            : undefined,
+        })
+      );
+    }
   };
 
   // if not loaded initializeData script will not work
   if (!window.aai_lid) {
-    errorLog('initializeData not set');
+    errorLog(new Error('initialize data not set'));
     return;
   }
 
   try {
+    publicInstanceID = initializeData.i;
+
     var firstScript = document.getElementsByTagName('script')[0];
 
     var initializeData = window.aai_lid;
