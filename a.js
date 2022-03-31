@@ -1072,8 +1072,6 @@
           pageData.bc = breadcrumbProcess(payload.bc);
         }
 
-        console.log(payload.geo);
-
         /**
          * geolocation
          */
