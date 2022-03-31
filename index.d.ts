@@ -316,7 +316,6 @@ interface PerformanceData {
 interface GeographyData {
   lat: GeoLatitude;
   lon: GeoLongitude;
-  acc: GeoAccuracy;
 }
 
 interface EventData {

@@ -70,11 +70,8 @@
     const sanitizeGeographyData = function sanitizeGeographyData(obj) {
       if (
         typeof obj === 'object' &&
-        isFiniteNumber(obj.acc) &&
         isFiniteNumber(obj.lat) &&
         isFiniteNumber(obj.lon) &&
-        obj.acc >= 0 &&
-        obj.acc <= 1000 * 1000 &&
         Math.abs(obj.lat) <= 90 &&
         Math.abs(obj.lon) <= 180
       ) {
@@ -100,7 +97,6 @@
             const geo = {
               lat: position.coords.latitude,
               lon: position.coords.longitude,
-              acc: position.coords.accuracy,
             };
             resolve(geo);
           },
@@ -1076,19 +1072,23 @@
           pageData.bc = breadcrumbProcess(payload.bc);
         }
 
+        console.log(payload.geo);
+
         /**
          * geolocation
          */
-        if (typeof pageData.geo !== 'object') {
+        if (typeof pageData.geo === 'undefined') {
           (function processGeo() {
             if (payload.geo === true) {
               // check failed
               const geoCacheFailedValue = '1';
               const geoCacheFailedKey = 'gf';
+
               const geoCacheFailedData = storageGet(
                 storagePrefix,
                 geoCacheFailedKey
               );
+
               if (geoCacheFailedData === geoCacheFailedValue) {
                 return;
               }
@@ -1157,9 +1157,9 @@
                   debugLog(['processGeo:failed', e]);
                 });
             } else if (typeof payload.geo === 'object') {
-              const injGeo = sanitizeGeographyData(payload.geo);
-              if (injGeo) {
-                pageData.geo = payload.geo;
+              const geoPayload = sanitizeGeographyData(payload.geo);
+              if (geoPayload) {
+                pageData.geo = geoPayload;
               }
             }
           })();

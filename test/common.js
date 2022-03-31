@@ -80,6 +80,9 @@ const fakerSeed = (id, lang) => {
   return faker;
 };
 
+const randomIntFromTwo = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1) + min);
+
 const randomString = () => {
   return (
     new Date().getTime().toString(32) + Math.random().toString(32).substring(2)
@@ -233,9 +236,8 @@ const pageProps = (req) => {
       initData.pv.geo = true;
     } else if (Math.random() > 0.2) {
       initData.pv.geo = {
-        lat: Math.random() * 360 - 180,
-        lon: Math.random() * 360 - 180,
-        acc: Math.round(Math.random() * 1000) + 1,
+        lat: randomIntFromTwo(-100, 100) + Math.random() * 2,
+        lon: randomIntFromTwo(-400, 400) + Math.random() * 2,
       };
     }
   }
