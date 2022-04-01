@@ -21,10 +21,10 @@ const commands = [
   `cd ${__dirname}/dist`,
   // a.js
   `cp ${__dirname}/a.js ${__dirname}/dist/a.src.js`,
-  `${__dirname}/node_modules/.bin/uglifyjs a.src.js -cmo a.js --source-map url=a.js.map`,
+  `${__dirname}/node_modules/.bin/uglifyjs a.src.js -cmo a.js`,
   // l.js
   `cp ${__dirname}/l.js ${__dirname}/dist/l.src.js`,
-  `${__dirname}/node_modules/.bin/uglifyjs l.src.js -cmo l.js --source-map url=l.js.map`,
+  `${__dirname}/node_modules/.bin/uglifyjs l.src.js -cmo l.js`,
   // script.js
   `cp ${__dirname}/script.js ${__dirname}/dist/script.src.js`,
   `${__dirname}/node_modules/.bin/uglifyjs script.src.js -cmo script.js`,
