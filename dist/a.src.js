@@ -419,12 +419,7 @@
      */
     const getScreenOrientation = function getScreenOrientation() {
       if (window.screen.orientation && window.screen.orientation.type) {
-        return window.screen.orientation.type
-          .split('-')
-          .map(function mapOrientationTypeName(name) {
-            return name.substring(0, 1);
-          })
-          .join('-');
+        return window.screen.orientation.type;
       }
     };
 
@@ -602,7 +597,7 @@
       try {
         // parse url and remove before path
         const ur = new URL(result.u);
-        result.u = ur.pathname + ur.search + ur.hash;
+        result.u = ur.toString();
       } catch (e) {
         errorLog('breadcrumbValidateItem:url', e);
         return undefined;
