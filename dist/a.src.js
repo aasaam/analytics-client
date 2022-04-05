@@ -376,19 +376,21 @@
       if (mainTag) {
         const id = trimString(mainTag.getAttribute('data-entity-id'));
         const module = trimString(mainTag.getAttribute('data-entity-module'));
-        let taxonomy;
-        const taxonomyValue = mainTag.getAttribute('data-entity-taxonomy');
-        if (isValidTaxonomyID(taxonomyValue)) {
-          taxonomy = taxonomyValue;
-        }
-        if (isIDString(id) && isSanitizeName(module)) {
-          return {
-            i: id,
-            m: module,
-            t: taxonomy,
-          };
-        } else {
-          errorLog('mainEntity', mainEntity);
+        if (id.length >= 1 && module.length >= 1) {
+          let taxonomy;
+          const taxonomyValue = mainTag.getAttribute('data-entity-taxonomy');
+          if (isValidTaxonomyID(taxonomyValue)) {
+            taxonomy = taxonomyValue;
+          }
+          if (isIDString(id) && isSanitizeName(module)) {
+            return {
+              i: id,
+              m: module,
+              t: taxonomy,
+            };
+          } else {
+            errorLog('mainEntity', mainEntity);
+          }
         }
       }
       return {
