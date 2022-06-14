@@ -267,7 +267,7 @@
      * @returns {Boolean}
      */
     const isSanitizeName = function isSanitizeName(name) {
-      return isFillString(name) && /[a-z_]{1,31}/.test(name);
+      return isFillString(name) && /^[a-z0-9_]{1,31}$/.test(name);
     };
 
     /**
@@ -318,7 +318,7 @@
      * @returns {PageLanguage}
      */
     const getPageLanguage = function getPageLanguage() {
-      let pageLanguage = '';
+      let pageLanguage = document.documentElement.lang;
       const langAttribute = document.querySelector('html[lang]');
       if (langAttribute && langAttribute.hasAttribute('lang')) {
         pageLanguage = langAttribute.getAttribute('lang');
@@ -350,6 +350,37 @@
         }
         errorLog('canonicalURL', canonicalURL);
       }
+    };
+
+    /**
+     * @param {Segment[]} segments
+     * @returns {SegmentPayload}
+     */
+    const sanitizeSegments = function sanitizeSegments(segments) {
+      if (!Array.isArray(segments)) {
+        return undefined;
+      }
+
+      const validScopes = [1, 2, 3, 4, 5];
+      /** @type {SegmentPayload} */
+      const result = {};
+      segments.forEach((s) => {
+        const name = trimString(s.n);
+        const value = trimString(s.v);
+        const scope = parseInt(s.s);
+        if (
+          validScopes.includes(scope) &&
+          name &&
+          isSanitizeName(name) &&
+          value
+        ) {
+          result[`s${scope}n`] = name;
+          result[`s${scope}v`] = value;
+        } else {
+          debugLog(['invalid segment', s]);
+        }
+      });
+      return Object.keys(result).length ? result : undefined;
     };
 
     /**
@@ -389,7 +420,7 @@
               t: taxonomy,
             };
           } else {
-            errorLog('mainEntity', mainEntity);
+            debugLog(mainEntity);
           }
         }
       }
@@ -1013,6 +1044,9 @@
 
           // keywords
           k: undefined,
+
+          // segments
+          seg: sanitizeSegments(payload.sg),
 
           // referrer state
           rs: undefined,

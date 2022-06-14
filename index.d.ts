@@ -384,12 +384,27 @@ interface PageCommonData {
   cu?: CanonicalURL;
 }
 
+interface SegmentPayload {
+  s1n?: string;
+  s2n?: string;
+  s3n?: string;
+  s4n?: string;
+  s5n?: string;
+
+  s1v?: string;
+  s2v?: string;
+  s3v?: string;
+  s4v?: string;
+  s5v?: string;
+}
+
 interface PageData extends PageCommonData {
   scr?: ScreenSize;
   vps?: ViewportSize;
   cd?: ColorDepth;
   dpr?: DevicePixelRatio;
   sot?: ScreenOrientationType;
+  seg?: SegmentPayload;
   k?: PageKeywords;
   bc?: PageBreadcrumbObject;
 
@@ -442,6 +457,8 @@ type StorageValue =
 
 interface PageViewPayload extends PageCommonData {
   usr?: UserIdOrName;
+
+  sg?: Segment[];
 
   k?: PageKeywords;
   geo?: GeographyData | boolean;
@@ -540,6 +557,25 @@ interface PublicCIDData {
    * Persist part
    */
   p: string;
+}
+
+type SegmentScope = 1 | 2 | 3 | 4 | 5;
+
+interface Segment {
+  /**
+   * Scope
+   */
+  s: Scope;
+
+  /**
+   * Name
+   */
+  n: string;
+
+  /**
+   * Value
+   */
+  v: string;
 }
 
 interface aasaamAnalyticsInstance {

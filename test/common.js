@@ -7,7 +7,7 @@ const fastifyCors = require('fastify-cors').default;
 const fastifyCookie = require('fastify-cookie');
 
 const nunjucksRuntime = require('nunjucks');
-const faker = require('@faker-js/faker').default;
+const { faker } = require('@faker-js/faker');
 
 const publicHashID = '000000000000';
 let analyticServerURL = 'https://collector.aasaam-analytics.gw:7000';
@@ -219,8 +219,24 @@ const pageProps = (req) => {
     }
   }
 
-  if (Math.random() > 0.2) {
+  if (Math.random() > 0.1) {
     initData.pv = {};
+
+    if (Math.random() > 0.2) {
+      initData.pv.sg = [];
+      for (let i = 1; i <= randomIntFromTwo(1, 5); i += 1) {
+        initData.pv.sg.push({
+          n: `n${faker.internet
+            .userName()
+            .toLowerCase()
+            .replace(/[^a-z0-9]/gi, '')
+            .trim()}`,
+          v: faker.lorem.words(),
+          s: i,
+        });
+      }
+      console.log(initData.pv.sg);
+    }
 
     initData.pv.bc = true;
 

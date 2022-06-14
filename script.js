@@ -8,16 +8,11 @@
   initializeData
 ) {
   // prevent error if not loaded
+  var notImplemented = function() { return undefined ;}
   window.aai = {
-    cid: function () {
-      return undefined;
-    },
-    event: function () {
-      return undefined;
-    },
-    pageView: function () {
-      return undefined;
-    },
+    cid: notImplemented,
+    event: notImplemented,
+    pageView: notImplemented,
   };
 
   var firstScript = document.getElementsByTagName('script')[0];
