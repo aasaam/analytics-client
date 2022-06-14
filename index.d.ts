@@ -341,6 +341,13 @@ interface EventData {
   l?: string;
 
   /**
+   * Ident
+   *
+   * Identification for future usage
+   */
+  id?: string;
+
+  /**
    * Value
    *
    * None-negative integer number [0-18446744073709551615]

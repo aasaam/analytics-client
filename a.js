@@ -973,6 +973,7 @@
                 c: ev.c,
                 a: ev.a,
                 l: ev.l,
+                id: ev.id,
                 v: ev.v,
               };
             });
@@ -1315,8 +1316,12 @@
           errorLog('event:action', eventData);
           return instanceObject;
         }
-        if (eventData.l !== undefined || !isFillString(eventData.l)) {
+        if (eventData.l !== undefined && !isFillString(eventData.l)) {
           errorLog('event:label', eventData);
+          return instanceObject;
+        }
+        if (eventData.id !== undefined && !isIDString(eventData.id)) {
+          errorLog('event:ident', eventData);
           return instanceObject;
         }
         if (
@@ -1332,6 +1337,7 @@
           c: eventData.c,
           a: eventData.a,
           l: eventData.l,
+          id: eventData.id,
           v: eventData.v,
         });
 

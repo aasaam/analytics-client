@@ -112,3 +112,34 @@ This is list of parameters:
 - `ei` [MainEntityID](/reference.md#pagecommondata)
 - `em` [MainEntityModule](/reference.md#pagecommondata)
 - `et` [MainEntityTaxonomyID](/reference.md#pagecommondata)
+
+## Send events
+
+Send event without client library
+
+```js
+/**
+ * Event types:
+ *
+ * EventJSInPageView: 'e_js_pv'
+ * EventJSCross: 'e_js_c'
+ * EventServiceWorker: 'e_sw'
+ * EventOther: 'e_o'
+ * */
+navigator.sendBeacon(
+  'https://collector.your-organization.tld/?m=e_sw&i=0123456789az',
+  JSON.stringify([
+    {
+      // requirements
+      c: 'event_category', // must be /^[a-z0-9_]{1,31}$/
+      a: 'event_a_action', // must be /^[a-z0-9_]{1,31}$/
+
+      // optional
+      l: 'Something awesome happened, did you know?', // optional any string you like
+      id: '', // identification must be  /^[a-zA-Z0-9-_\/]{1,63}$/
+      v: 1, // integer v > 0
+    },
+    // and multiple event could be added also
+  ])
+);
+```
