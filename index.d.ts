@@ -17,9 +17,9 @@ type GeoLongitude = number;
 type GeoAccuracy = number;
 
 /**
- * CollectorServerURL
+ * CollectorServerHost
  */
-type CollectorServerURL = string;
+type CollectorServerHost = string;
 
 /**
  * PublicInstanceID
@@ -511,7 +511,7 @@ interface InitializeDataGeo {
 
 interface InitializeData {
   i: PublicInstanceID;
-  s: CollectorServerURL;
+  s: CollectorServerHost;
 
   /**
    * Prefix for local storage and cookie

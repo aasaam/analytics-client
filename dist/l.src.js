@@ -105,7 +105,7 @@
 
     /** @type {HTMLImageElement} */
     var imgTag = document.createElement('img');
-    imgTag.src = initializeData.s + '/?' + queryParams.join('&');
+    imgTag.src = 'https://' + initializeData.s + '/?' + queryParams.join('&');
     imgTag.decoding = 'async';
     imgTag.width = 1;
     imgTag.height = 1;

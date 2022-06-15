@@ -60,8 +60,8 @@ This is example parameters for initialize data of analytics:
 {
   // PublicInstanceID
   "i": "0123456789az",
-  // CollectorServerURL
-  "s": "https://collector.your-organization.tld"
+  // CollectorServerHost
+  "s": "collector.your-organization.tld"
 }
 ```
 
@@ -72,7 +72,7 @@ Full example
 {
   // PublicInstanceID
   "i": "0123456789az",
-  // CollectorServerURL
-  "s": "https://collector.your-organization.tld"
+  // CollectorServerHost
+  "s": "collector.your-organization.tld"
 }
 ```

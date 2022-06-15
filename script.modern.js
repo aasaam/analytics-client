@@ -24,7 +24,7 @@
     'data-i',
     window.btoa(encodeURIComponent(JSON.stringify(initializeData)))
   );
-  aasaamAnalyticScript.src = initializeData.s + '/a.js';
+  aasaamAnalyticScript.src = 'https://' + initializeData.s + '/a.js';
   firstScript.parentNode.insertBefore(aasaamAnalyticScript, firstScript);
 })(
   window,

@@ -8,7 +8,9 @@
   initializeData
 ) {
   // prevent error if not loaded
-  var notImplemented = function() { return undefined ;}
+  var notImplemented = function () {
+    return undefined;
+  };
   window.aai = {
     cid: notImplemented,
     event: notImplemented,
@@ -18,6 +20,8 @@
   var firstScript = document.getElementsByTagName('script')[0];
   var aasaamAnalyticScript = document.createElement('script');
   aasaamAnalyticScript.async = true;
+
+  var host = 'https://' + initializeData.s;
 
   // modern browser
   // condition for modern browser detect about ~ 90% total users
@@ -32,11 +36,11 @@
       'data-i',
       window.btoa(encodeURIComponent(JSON.stringify(initializeData)))
     );
-    aasaamAnalyticScript.src = initializeData.s + '/a.js';
+    aasaamAnalyticScript.src = host + '/a.js';
   } else {
     // legacy browsers
     window.aai_lid = initializeData;
-    aasaamAnalyticScript.src = initializeData.s + '/l.js';
+    aasaamAnalyticScript.src = host + '/l.js';
   }
 
   firstScript.parentNode.insertBefore(aasaamAnalyticScript, firstScript);
