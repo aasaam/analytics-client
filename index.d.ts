@@ -586,7 +586,6 @@ interface Segment {
 }
 
 interface aasaamAnalyticsInstance {
-  i?: boolean;
   ie?: EventData[];
   cid(): PublicCIDData;
   pageView(injectPayload?: PageViewPayload): aasaamAnalyticsInstance;

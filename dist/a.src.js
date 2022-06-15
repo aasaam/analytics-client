@@ -1374,13 +1374,11 @@
         }
       };
 
-      instanceObject.i = true;
-
       return instanceObject;
     };
   }
 
-  if (window.aai.i !== true) {
+  if (!window.aai) {
     if (
       document.currentScript &&
       document.currentScript.hasAttribute('data-i')
