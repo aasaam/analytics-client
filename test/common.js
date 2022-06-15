@@ -232,6 +232,7 @@ const pageProps = (req) => {
             .replace(/[^a-z0-9]/gi, '')
             .trim()}`,
           v: faker.lorem.words(),
+          // @ts-ignore
           s: i,
         });
       }

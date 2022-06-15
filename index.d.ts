@@ -128,7 +128,7 @@ type PageKeywords = string;
 /**
  * Entity ID
  *
- * ID in RDBMS, , UUID method `/^[a-zA-Z0-9-_\/]{1,63}$/`
+ * ID in RDBMS, or any Ident like data `/^[a-zA-Z0-9-_\/]{1,63}$/`
  *
  * @example '/' For home page
  * @example '1000' MySQL
@@ -141,7 +141,7 @@ type MainEntityID = string;
 /**
  * Entity module
  *
- * Lower case and _ separated name of module [a-z_]{1,31}
+ * Lower case and _ separated name of module /^[a-z0-9_]{1,31}$/
  *
  * @example 'home'
  * @example 'video_gallery'
@@ -572,7 +572,7 @@ interface Segment {
   /**
    * Scope
    */
-  s: Scope;
+  s: SegmentScope;
 
   /**
    * Name

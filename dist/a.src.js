@@ -367,6 +367,7 @@
       segments.forEach((s) => {
         const name = trimString(s.n);
         const value = trimString(s.v);
+        // @ts-ignore
         const scope = parseInt(s.s);
         if (
           validScopes.includes(scope) &&
