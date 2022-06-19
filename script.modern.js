@@ -13,10 +13,7 @@
     'https://' +
     initializeData.s +
     '/_/' +
-    new Date()
-      .toISOString()
-      .split('T')[0]
-      .replace(/[^0-9]/g, '');
+    new Date().toISOString().split('T')[0];
 
   aasaamAnalyticScript.setAttribute(
     'data-i',

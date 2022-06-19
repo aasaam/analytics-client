@@ -13,6 +13,7 @@
     "dist"
   ],
   "scripts": {
+    "all": "npm run build && npm run type-check && npm run lint && npm run build",
     "type-check": "tsc --noEmit -p jsconfig.json",
     "build": "node build.js",
     "lint": "eslint"

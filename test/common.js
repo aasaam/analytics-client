@@ -19,6 +19,10 @@ let scriptTagTemplate = readFileSync(`${__dirname}/../script.js`, {
   encoding: 'utf8',
 });
 
+let scriptModernTagTemplate = readFileSync(`${__dirname}/../script.modern.js`, {
+  encoding: 'utf8',
+});
+
 let analyticsScript = readFileSync(`${__dirname}/../a.js`, {
   encoding: 'utf8',
 });
@@ -35,6 +39,12 @@ if (process.env.RUN_DIST_MODE) {
   scriptTagTemplate = readFileSync(`${__dirname}/../dist/script.js`, {
     encoding: 'utf8',
   });
+  scriptModernTagTemplate = readFileSync(
+    `${__dirname}/../dist/script.modern.js`,
+    {
+      encoding: 'utf8',
+    }
+  );
   analyticsScript = readFileSync(`${__dirname}/../dist/a.js`, {
     encoding: 'utf8',
   });
@@ -92,6 +102,13 @@ const randomString = () => {
 
 const getScriptTag = (initData) => {
   return scriptTagTemplate.replace(
+    '__INITIALIZE_DATA__',
+    JSON.stringify(initData)
+  );
+};
+
+const getScriptModernTag = (initData) => {
+  return scriptModernTagTemplate.replace(
     '__INITIALIZE_DATA__',
     JSON.stringify(initData)
   );
@@ -287,7 +304,9 @@ const pageProps = (req) => {
     ampURL,
     appServerURL,
     analyticServerURL: analyticServerURLLocal,
-    script: getScriptTag(initData),
+    script: process.env.RUN_MODERN_MODE
+      ? getScriptModernTag(initData)
+      : getScriptTag(initData),
     PageViewImageNoScript: [
       `m=${PageViewImageNoScript}`,
       `i=${encodeURIComponent(publicHashID)}`,
