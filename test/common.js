@@ -5,6 +5,7 @@ const { readFileSync } = require('fs');
 const fastify = require('fastify').default;
 const fastifyCors = require('fastify-cors').default;
 const fastifyCookie = require('fastify-cookie');
+const fastifyCompress = require('@fastify/compress').default;
 
 const nunjucksRuntime = require('nunjucks');
 const { faker } = require('@faker-js/faker');
@@ -163,7 +164,7 @@ const pageProps = (req) => {
 
   const fakes = fakerSeed(id, lang);
 
-  let analyticServerURLLocal = analyticServerURL;
+  let analyticServerURLLocal = new URL(analyticServerURL).host;
 
   if (req.cookies['as']) {
     analyticServerURLLocal = req.cookies['as'];
@@ -328,5 +329,6 @@ module.exports = {
   fastify,
   fastifyCors,
   fastifyCookie,
+  fastifyCompress,
   analyticsLegacyScript,
 };

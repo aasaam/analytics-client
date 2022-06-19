@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}" dir="{{ dir }}">
+  <head>
+    <script>{{ script | safe }}</script>
+    <meta charset="utf-8" />
+    <title>{{ title }} | {{ postTitle }}</title>
+    <meta name="description" content="{{ description }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="shortcut icon"
+      href="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+    />
+    <meta name="keywords" content="{{ keywords | safe }}" />
+    <meta property="og:title" content="{{ ogTitle }}" />
+  </head>
+  <body>
+    <main
+{% if chances[9] %}
+      data-entity-id="{{ id }}"
+      data-entity-module="page"
+      data-entity-taxonomy="A0000"
+{% endif %}
+      >
+        <h1>{{ title }}</h1>
+        <p>{{ description }}</p>
+    </main>
+    <noscript><img style="display:none" height="1" width="1" alt="" src="{{ analyticServerURL | safe }}/?{{ PageViewImageNoScript | safe }}"></noscript>
+  </body>
+</html>

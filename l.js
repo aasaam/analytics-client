@@ -51,11 +51,9 @@
   }
 
   try {
-    publicInstanceID = initializeData.i;
-
-    var firstScript = document.getElementsByTagName('script')[0];
-
     var initializeData = window.aai_lid;
+
+    publicInstanceID = initializeData.i;
 
     /** @type {AnalyticsRequestMode} */
     var mode = 'pv_il';
@@ -110,7 +108,7 @@
     imgTag.width = 1;
     imgTag.height = 1;
     imgTag.alt = '';
-    firstScript.parentNode.insertBefore(imgTag, firstScript);
+    document.body.appendChild(imgTag);
     imgTag.onload = function () {
       delete window.aai_lid;
       window.aai_lid = undefined;

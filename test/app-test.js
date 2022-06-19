@@ -54,6 +54,17 @@ module.exports = async () => {
     }, (Math.floor(Math.random() * 3) + 1) * 100);
   });
 
+  app.get('/empty', (req, reply) => {
+    // @ts-ignore
+    const props = pageProps(req);
+
+    setTimeout(() => {
+      reply
+        .header('content-type', 'text/html; charset=utf-8')
+        .send(nunjucks.render(`empty.njk`, props));
+    }, (Math.floor(Math.random() * 3) + 1) * 100);
+  });
+
   app.get('/amp', (req, reply) => {
     // @ts-ignore
     const props = pageProps(req);

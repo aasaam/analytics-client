@@ -35,10 +35,6 @@ const commands = [
   `cp ${__dirname}/script.modern.js ${__dirname}/dist/script.modern.src.js`,
   `${__dirname}/node_modules/.bin/uglifyjs script.modern.src.js -cmo script.modern.js`,
   `rm script.modern.src.js`,
-  // script.modern-ni.js
-  `cp ${__dirname}/script.modern-ni.js ${__dirname}/dist/script.modern-ni.src.js`,
-  `${__dirname}/node_modules/.bin/uglifyjs script.modern-ni.src.js -cmo script.modern-ni.js`,
-  `rm script.modern-ni.src.js`,
 ];
 
 execSync(commands.join(' && '));
@@ -52,5 +48,4 @@ showFileSize(`l.js`, `dist/l.js`);
 showFileSize(`script.js`, `dist/script.js`);
 showFileSize(`script-debug.js`, `dist/script-debug.js`);
 showFileSize(`script.modern.js`, `dist/script.modern.js`);
-showFileSize(`script.modern-ni.js`, `dist/script.modern-ni.js`);
 showFileSize(`amp.json`, `dist/amp.json`);

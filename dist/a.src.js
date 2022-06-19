@@ -763,13 +763,13 @@
             if (obj) {
               itemListElements = obj.itemListElement;
             } else {
-              errorLog('breadcrumbProcess:first-json+ld', jsonData);
+              debugLog(['breadcrumbProcess:first-json+ld', jsonData]);
             }
           } catch (e) {
-            errorLog('breadcrumbProcess:first-json+ld', e);
+            debugLog(['breadcrumbProcess:first-json+ld', e]);
           }
         } else {
-          errorLog('breadcrumbProcess:first-json+ld:not-found');
+          debugLog('breadcrumbProcess:first-json+ld:not-found');
         }
       }
 

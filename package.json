@@ -23,6 +23,7 @@
     "eslint": "^8",
     "eslint-plugin-import": "^2",
     "eslint-plugin-prettier": "^4",
+    "@fastify/compress": "^5",
     "fastify": "^3",
     "fastify-cookie": "^5",
     "fastify-cors": "^6",

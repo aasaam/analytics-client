@@ -13,6 +13,7 @@ const {
   randomString,
   nunjucks,
   gifSingle,
+  fastifyCompress,
 } = require('./common');
 
 module.exports = async () => {
@@ -29,6 +30,10 @@ module.exports = async () => {
 
   app.register(fastifyCors, {
     origin: true,
+  });
+
+  app.register(fastifyCompress, {
+    global: true,
   });
 
   app.all('/', (req, reply) => {
@@ -68,19 +73,20 @@ module.exports = async () => {
     }
   });
 
-  app.get('/a.js', (req, reply) => {
+  app.get('/_/:version/a.js', (req, reply) => {
     reply
+      .header('cache-control', 'public, max-age=31536000, immutable')
       .header('content-type', 'application/javascript')
       .send(analyticsScript);
   });
 
-  app.get('/l.js', (req, reply) => {
+  app.get('/_/:version/l.js', (req, reply) => {
     reply
       .header('content-type', 'application/javascript')
       .send(analyticsLegacyScript);
   });
 
-  app.get('/amp.json', (req, reply) => {
+  app.get('/_/:version/amp.json', (req, reply) => {
     reply.header('content-type', 'application/json').send(ampScript);
   });
 
