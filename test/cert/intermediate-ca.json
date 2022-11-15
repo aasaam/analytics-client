@@ -1,0 +1,19 @@
+{
+  "CN": "Custom Intermediate CA",
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "IR",
+      "L": "Tehran",
+      "O": "Custom",
+      "OU": "Custom Intermediate CA",
+      "ST": "Tehran"
+    }
+  ],
+  "ca": {
+    "expiry": "42720h"
+  }
+}

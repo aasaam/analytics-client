@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}" dir="{{ dir }}">
+  <head>
+    <script>{{ script | safe }}</script>
+    <meta charset="utf-8" />
+    <title>{{ title }} | {{ postTitle }}</title>
+    <meta name="description" content="{{ description }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="shortcut icon"
+      href="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+    />
+    <link rel="amphtml" href="{{ ampURL }}" />
+    {% if dir === "rtl "%}
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma-rtl.min.css"
+    />
+    {% else %}
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+    />
+    {% endif %}
+    <meta name="keywords" content="{{ keywords | safe }}" />
+    <link rel="canonical" href="{{ canonical }}" />
+    <meta property="og:title" content="{{ ogTitle }}" />
+  </head>
+  <body>
+    <nav
+      class="navbar is-primary"
+      role="navigation"
+      aria-label="main navigation"
+    >
+      <div class="container">
+        <a class="button" href="/?lang=en">EN</a>
+        <a class="button" href="/?lang=fa">FA</a>
+        |
+        <a class="button" href="//site0.gw:5000">APP(0)</a>
+        <a class="button" href="//site1.gw:5000">APP(1)</a>
+        <a class="button" href="//site2.gw:5000">APP(2)</a>
+        <a class="button" href="//site3.gw:5000">APP(3)</a>
+      </div>
+    </nav>
+    <hr />
+    <div class="container">
+      <div class="columns">
+        <div class="column is-4"></div>
+        <div class="column is-4">
+          <nav class="pagination" role="navigation" aria-label="pagination">
+{% if id > 1 %}
+            <a class="pagination-previous" href="/?id={{ id - 1 }}&lang={{ lang }}">Previous</a>
+{% endif %}
+            <a class="pagination-next" href="/?id={{ id + 1 }}&lang={{ lang }}">Next</a>
+          </nav>
+        </div>
+      </div>
+
+{% if chances[5] %}
+      <script id="data-breadcrubm-list" type="application/ld+json">{{ pageJSONSchema | safe }}</script>
+{% endif %}
+      <main
+        class="hero is-link"
+{% if chances[9] %}
+        data-entity-id="{{ id }}"
+        data-entity-module="page"
+        data-entity-taxonomy="A0000"
+{% endif %}
+      >
+        <div class="hero-body content">
+          <div class="title">
+            <a href="{{ pagePath }}">{{ title }}</a>
+          </div>
+          <div class="subtitle">{{ content1 | safe }}</div>
+          <div id="ajax"></div>
+          <div>
+            <img
+              src="https://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg"
+              alt="ویکی پدیا"
+              width="64"
+            />
+            <br />
+            <img src="{{ maxURLPath }}" alt="عکس نمونه" width="64" />
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      var oReq = new XMLHttpRequest();
+      oReq.open("GET", "/ajax?lang={{ lang }}");
+      oReq.onreadystatechange = function() {
+        if (this.readyState == 4) {
+          document.getElementById("ajax").innerHTML = oReq.responseText;
+        }
+      };
+      oReq.send();
+    </script>
+    <noscript><img style="display:none" height="1" width="1" alt="" src="{{ analyticServerURL | safe }}/?{{ PageViewImageNoScript | safe }}"></noscript>
+  </body>
+</html>

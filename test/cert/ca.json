@@ -1,0 +1,16 @@
+{
+  "CN": "Custom Root CA",
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "IR",
+      "L": "Tehran",
+      "O": "Custom",
+      "OU": "Custom Root CA",
+      "ST": "Tehran"
+    }
+  ]
+}

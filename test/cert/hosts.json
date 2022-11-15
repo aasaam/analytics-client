@@ -1,0 +1,25 @@
+{
+  "CN": "hosts",
+  "hosts": [
+    "127.0.0.1",
+    "aasaam-analytics.gw",
+    "collector.aasaam-analytics.gw",
+    "site0.gw",
+    "site1.gw",
+    "site2.gw",
+    "site3.gw"
+  ],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "IR",
+      "L": "Tehran",
+      "O": "Custom",
+      "OU": "Custom Root CA",
+      "ST": "Tehran"
+    }
+  ]
+}
