@@ -154,13 +154,13 @@ type MainEntityID = string;
 type MainEntityModule = string;
 
 /**
- * Entity Taxonomy ID must valid aasaam taxonomy id
+ * Entity Taxonomy ID must valid aasaam taxonomy id (uint16 1 to 65535)
  *
  * @see {@link https://github.com/aasaam/taxonomy}
- * @example `A0000`
- * @example `Gzzzz`
+ * @example 21
+ * @example '91'
  */
-type MainEntityTaxonomyID = string;
+type MainEntityTaxonomyID = string | number;
 
 /**
  * ScreenSize

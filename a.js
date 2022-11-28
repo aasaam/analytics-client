@@ -385,14 +385,18 @@
     };
 
     /**
-     * @param {String} inp
+     * @param {String|Number} inp
      * @returns {Boolean}
      */
     const isValidTaxonomyID = function isValidTaxonomyID(inp) {
-      if (typeof inp === 'string' && /^[A-Z]{1}[0-9a-z]{4}$/.test(inp)) {
-        return true;
+      let valid = false;
+      let number = -1;
+      if (typeof inp === 'string' && /^[0-9]+$/.test(inp)) {
+        number = parseInt(inp, 10);
+      } else if (typeof inp === 'number' && Number.isInteger(inp)) {
+        number = inp;
       }
-      return false;
+      return number > 0 && number <= 65535;
     };
 
     /**
@@ -1021,7 +1025,7 @@
           cu: isValidURL(payload.cu) ? payload.cu : getCanonicalURL(),
 
           // entity id
-          ei: isFillString(payload.ei) ? payload.ei : mainEntity.i,
+          ei: isIDString(payload.ei) ? payload.ei : mainEntity.i,
 
           // entity module
           em: isSanitizeName(payload.em) ? payload.em : mainEntity.m,
