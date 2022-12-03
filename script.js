@@ -16,7 +16,7 @@
     'https://' +
     initializeData.s +
     '/_/' +
-    new Date().toISOString().split('T')[0];
+    new Date().toISOString().split('T')[0].replace(/-/g, '');
 
   // modern browser
   // condition for modern browser detect about ~ 90% total users

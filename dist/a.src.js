@@ -811,13 +811,26 @@
       waitTime
     ) {
       return new Promise(function resolveFunction(resolve) {
-        const timingInfo = window.performance;
-        setTimeout(function timeoutFunction() {
-          if (!timingInfo || performance.timeOrigin === 0) {
-            return resolve(undefined);
-          }
-          resolve(timingInfo.toJSON());
-        }, sanitizeInteger(waitTime, 50, 2000, 500));
+        if (
+          'performance' in window &&
+          'timeOrigin' in window.performance &&
+          'timeOrigin' in window.performance
+        ) {
+          const timingInfo = window.performance;
+          setTimeout(function timeoutFunction() {
+            if (!timingInfo || window.performance.timeOrigin === 0) {
+              return resolve(undefined);
+            }
+            try {
+              resolve(timingInfo.toJSON());
+            } catch (e) {
+              errorLog('timingInfo', e);
+              return resolve(undefined);
+            }
+          }, sanitizeInteger(waitTime, 50, 2000, 500));
+        } else {
+          resolve(undefined);
+        }
       });
     };
 
@@ -846,7 +859,19 @@
      * @returns {Number}
      */
     const performanceResources = function performanceResources() {
-      return JSON.parse(JSON.stringify(window.performance.getEntries())).length;
+      try {
+        return JSON.parse(
+          JSON.stringify(window.performance.getEntries())
+        ).filter(
+          /**
+           * @param {PerformanceEntry} entry
+           */
+          (entry) => entry.entryType === 'resource'
+        ).length;
+      } catch (e) {
+        errorLog('performanceResources', e);
+      }
+      return 0;
     };
 
     /**

@@ -33,15 +33,26 @@
         'Content-Type',
         'application/json;charset=UTF-8'
       );
+      var err = 'VeryLegacy';
+      try {
+        err = JSON.stringify(anyValue, Object.getOwnPropertyNames(anyValue));
+      } catch (eJSON) {}
       xmlHTTPReq.send(
         JSON.stringify({
           msg: 'legacy-script',
-          err: anyValue
-            ? JSON.stringify(anyValue, Object.getOwnPropertyNames(anyValue))
-            : undefined,
+          err: err,
         })
       );
     }
+  };
+
+  var querySelector = function querySelector(selector) {
+    try {
+      document.querySelector(selector);
+    } catch (e) {
+      return undefined;
+    }
+    return undefined;
   };
 
   // if not loaded initializeData script will not work
@@ -74,25 +85,32 @@
     };
 
     if ('querySelector' in document) {
-      var titleTagOG = document.querySelector('meta[property="og:title"]');
+      var titleTagOG = querySelector('meta[property="og:title"]');
       if (titleTagOG) {
         params.t = titleTagOG.getAttribute('content');
       }
 
-      var langAttribute = document.querySelector('html[lang]');
+      var langAttribute = querySelector('html[lang]');
       if (langAttribute) {
         params.l = langAttribute.getAttribute('lang');
       }
 
-      var mainArticleTag = document.querySelector('main');
+      var mainArticleTag = querySelector('main');
       if (mainArticleTag) {
         params.ei = mainArticleTag.getAttribute('data-entity-id');
         params.em = mainArticleTag.getAttribute('data-entity-module');
         params.et = mainArticleTag.getAttribute('data-entity-taxonomy');
       }
-      var canonicalTag = document.querySelector('link[rel=canonical]');
+      var canonicalTag = querySelector('link[rel=canonical]');
       if (canonicalTag && canonicalTag.getAttribute('href')) {
         params.cu = canonicalTag.getAttribute('href');
+      }
+    } else {
+      var mainArticleTags = document.getElementsByTagName('main');
+      if (mainArticleTags && mainArticleTags[0]) {
+        params.ei = mainArticleTag['data-entity-id'];
+        params.em = mainArticleTag['data-entity-module'];
+        params.et = mainArticleTag['data-entity-taxonomy'];
       }
     }
 
