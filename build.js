@@ -10,7 +10,7 @@ const showFileSize = (file1, file2) => {
     [
       `${file1} ${size1}(Bytes)`,
       `${file2} ${size2}(Bytes)`,
-      `${100 - Math.round((size2 / size1) * 100)}%`,
+      `${100 - Math.round((size2 / size1) * 100)}%`
     ].join(' | ')
   );
 };
@@ -34,13 +34,13 @@ const commands = [
   // script.modern.js
   `cp ${__dirname}/script.modern.js ${__dirname}/dist/script.modern.src.js`,
   `${__dirname}/node_modules/.bin/uglifyjs script.modern.src.js -cmo script.modern.js`,
-  `rm script.modern.src.js`,
+  `rm script.modern.src.js`
 ];
 
 execSync(commands.join(' && '));
 
 writeFileSync(`${__dirname}/dist/amp.json`, JSON.stringify(amp).trim(), {
-  encoding: 'utf8',
+  encoding: 'utf8'
 });
 
 showFileSize(`a.js`, `dist/a.js`);

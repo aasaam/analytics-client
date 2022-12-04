@@ -19,6 +19,17 @@
       console.groupEnd();
     }
 
+    var err = 'veryLegacy';
+    if (anyValue.message) {
+      err = anyValue.message;
+    }
+    try {
+      err = anyValue.toString();
+    } catch (eJSON) {}
+    try {
+      err = JSON.stringify(anyValue, Object.getOwnPropertyNames(anyValue));
+    } catch (eJSON) {}
+
     // send error if possible
     if ('JSON' in window && 'XMLHttpRequest' in window) {
       var xmlHTTPReq = new XMLHttpRequest();
@@ -33,26 +44,26 @@
         'Content-Type',
         'application/json;charset=UTF-8'
       );
-      var err = 'VeryLegacy';
-      try {
-        err = JSON.stringify(anyValue, Object.getOwnPropertyNames(anyValue));
-      } catch (eJSON) {}
+
       xmlHTTPReq.send(
         JSON.stringify({
           msg: 'legacy-script',
-          err: err,
+          err: err
         })
       );
+    } else {
+      /** @type {HTMLImageElement} */
+      var errImgTag = document.createElement('img');
+      errImgTag.src =
+        'https://' +
+        initializeData.s +
+        '/?m=err_l&err=' +
+        encodeURIComponent(err);
+      document.body.appendChild(errImgTag);
+      errImgTag.onload = function () {
+        errImgTag.parentNode.removeChild(errImgTag);
+      };
     }
-  };
-
-  var querySelector = function querySelector(selector) {
-    try {
-      document.querySelector(selector);
-    } catch (e) {
-      return undefined;
-    }
-    return undefined;
   };
 
   // if not loaded initializeData script will not work
@@ -81,42 +92,59 @@
       u: window.location.href,
       r: document.referrer,
       _: randomString,
-      t: document.title,
+      t: document.title
     };
 
-    if ('querySelector' in document) {
-      var titleTagOG = querySelector('meta[property="og:title"]');
-      if (titleTagOG) {
-        params.t = titleTagOG.getAttribute('content');
-      }
+    // language
+    var htmlTags = document.getElementsByTagName('html');
+    if (htmlTags && htmlTags[0]) {
+      params.l = htmlTags[0].getAttribute('lang');
+    }
 
-      var langAttribute = querySelector('html[lang]');
-      if (langAttribute) {
-        params.l = langAttribute.getAttribute('lang');
+    // entity
+    var mainArticleTags = document.getElementsByTagName('main');
+    if (mainArticleTags && mainArticleTags[0]) {
+      var ei = mainArticleTags[0].getAttribute('data-entity-id');
+      var em = mainArticleTags[0].getAttribute('data-entity-module');
+      if (ei && em) {
+        params.ei = ei;
+        params.em = em;
       }
+      var et = mainArticleTags[0].getAttribute('data-entity-taxonomy');
+      if (et) {
+        params.et = et;
+      }
+    }
 
-      var mainArticleTag = querySelector('main');
-      if (mainArticleTag) {
-        params.ei = mainArticleTag.getAttribute('data-entity-id');
-        params.em = mainArticleTag.getAttribute('data-entity-module');
-        params.et = mainArticleTag.getAttribute('data-entity-taxonomy');
+    // title
+    var metaTags = document.getElementsByTagName('meta');
+    for (var i = 0; i < metaTags.length; i += 1) {
+      var meta = metaTags[i];
+      if (
+        meta.getAttribute('property') &&
+        meta.getAttribute('property') === 'og:title'
+      ) {
+        params.t = meta.getAttribute('content');
       }
-      var canonicalTag = querySelector('link[rel=canonical]');
-      if (canonicalTag && canonicalTag.getAttribute('href')) {
-        params.cu = canonicalTag.getAttribute('href');
-      }
-    } else {
-      var mainArticleTags = document.getElementsByTagName('main');
-      if (mainArticleTags && mainArticleTags[0]) {
-        params.ei = mainArticleTag['data-entity-id'];
-        params.em = mainArticleTag['data-entity-module'];
-        params.et = mainArticleTag['data-entity-taxonomy'];
+    }
+
+    // canonical
+    var linkTags = document.getElementsByTagName('link');
+    for (var i = 0; i < linkTags.length; i += 1) {
+      var link = linkTags[i];
+      if (
+        link.getAttribute('rel') &&
+        link.getAttribute('rel') === 'canonical'
+      ) {
+        params.cu = link.getAttribute('href');
       }
     }
 
     var queryParams = [];
     for (var key in params) {
-      queryParams.push(key + '=' + encodeURIComponent(params[key]));
+      if (params[key]) {
+        queryParams.push(key + '=' + encodeURIComponent(params[key]));
+      }
     }
 
     /** @type {HTMLImageElement} */
@@ -128,8 +156,10 @@
     imgTag.alt = '';
     document.body.appendChild(imgTag);
     imgTag.onload = function () {
-      delete window.aai_lid;
-      window.aai_lid = undefined;
+      if (window.aai_lid) {
+        delete window.aai_lid;
+        window.aai_lid = undefined;
+      }
       imgTag.parentNode.removeChild(imgTag);
     };
   } catch (e) {

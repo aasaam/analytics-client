@@ -38,7 +38,7 @@
         msg: message,
         err: err
           ? JSON.stringify(err, Object.getOwnPropertyNames(err))
-          : undefined,
+          : undefined
       })
     );
   };
@@ -96,7 +96,7 @@
             /** @type {GeographyData} */
             const geo = {
               lat: position.coords.latitude,
-              lon: position.coords.longitude,
+              lon: position.coords.longitude
             };
             resolve(geo);
           },
@@ -106,7 +106,7 @@
           {
             maximumAge: maximumAge,
             timeout: timeout,
-            enableHighAccuracy: enableHighAccuracy,
+            enableHighAccuracy: enableHighAccuracy
           }
         );
       });
@@ -139,7 +139,7 @@
         storageData = storageParse(localStorageData);
       } else {
         const cookieMatched = document.cookie.match(
-          new RegExp(escapeRegExp(prefix) + '=([^;]+)')
+          new RegExp(escapeRegExp(prefix) + '=([a-zA-Z0-9=+/]+)')
         );
         if (cookieMatched) {
           storageData = storageParse(window.atob(trimString(cookieMatched[1])));
@@ -162,7 +162,7 @@
       /** @type {StorageItem} */
       const item = {
         v: value,
-        e: ttl ? Date.now() + ttl * 1000 : undefined,
+        e: ttl ? Date.now() + ttl * 1000 : 86400000
       };
 
       // save
@@ -406,7 +406,7 @@
       /** @type {MainEntityProps} */
       const mainEntity = {
         i: '',
-        m: '',
+        m: ''
       };
       const mainTag = document.querySelector('main');
       if (mainTag) {
@@ -422,7 +422,7 @@
             return {
               i: id,
               m: module,
-              t: taxonomy,
+              t: taxonomy
             };
           } else {
             debugLog(mainEntity);
@@ -431,7 +431,7 @@
       }
       return {
         i: '',
-        m: '',
+        m: ''
       };
     };
 
@@ -534,7 +534,7 @@
               ? sessionDate.getTime() / 1000
               : Date.now() / 1000
           ).toString(),
-          isFillString(random) ? random : randomString(),
+          isFillString(random) ? random : randomString()
         ].join(':')
       );
     };
@@ -554,7 +554,7 @@
           const clientIdentifierData = {
             i: new Date(parseInt(matchedParts[1], 10) * 1000),
             s: new Date(parseInt(matchedParts[2], 10) * 1000),
-            r: matchedParts[3],
+            r: matchedParts[3]
           };
 
           return clientIdentifierData;
@@ -606,7 +606,7 @@
       const result = {
         p: item.position,
         n: '',
-        u: '',
+        u: ''
       };
 
       if (
@@ -784,7 +784,7 @@
           if (!item) {
             errorLog('breadcrumbProcess:item-invalid', {
               list: itemListElements,
-              item: item,
+              item: item
             });
             return {};
           }
@@ -888,7 +888,7 @@
       const instanceObject = {
         cid: undefined,
         pageView: undefined,
-        event: undefined,
+        event: undefined
       };
 
       /**
@@ -1004,19 +1004,19 @@
                 a: ev.a,
                 l: ev.l,
                 id: ev.id,
-                v: ev.v,
+                v: ev.v
               };
             });
 
             sendData(
               {
                 i: pid,
-                m: mode,
+                m: mode
               },
               {
                 cid_std: cid,
                 p: defaultPageData,
-                ev: targetEvents,
+                ev: targetEvents
               }
             );
           });
@@ -1101,7 +1101,7 @@
           geo: geo,
 
           // user name/id
-          usr: isFillString(payload.usr) ? payload.usr : undefined,
+          usr: isFillString(payload.usr) ? payload.usr : undefined
         };
 
         /**
@@ -1203,8 +1203,8 @@
                       storagePrefix,
                       geoCacheSuccessKey,
                       geo,
-                      geoSuccessAgeSeconds,
-                    },
+                      geoSuccessAgeSeconds
+                    }
                   ]);
                 })
                 .catch(function (e) {
@@ -1310,11 +1310,11 @@
             sendData(
               {
                 i: initializeData.i,
-                m: 'pv_js',
+                m: 'pv_js'
               },
               {
                 cid_std: cid,
-                p: pageData,
+                p: pageData
               }
             );
             initEvents();
@@ -1368,7 +1368,7 @@
           a: eventData.a,
           l: eventData.l,
           id: eventData.id,
-          v: eventData.v,
+          v: eventData.v
         });
 
         if (events.length >= 50) {
@@ -1398,7 +1398,7 @@
             i: cidParsed.i,
             s: cidParsed.s,
             r: cidParsed.r,
-            p: cidParsed.i.getTime().toString() + cidParsed.r,
+            p: cidParsed.i.getTime().toString() + cidParsed.r
           };
         }
       };
