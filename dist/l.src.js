@@ -23,9 +23,11 @@
     if (anyValue.message) {
       err = anyValue.message;
     }
+
     try {
       err = anyValue.toString();
     } catch (eJSON) {}
+
     try {
       err = JSON.stringify(anyValue, Object.getOwnPropertyNames(anyValue));
     } catch (eJSON) {}
@@ -57,7 +59,11 @@
       errImgTag.src =
         'https://' +
         initializeData.s +
-        '/?m=err_l&err=' +
+        '/?m=err_l&i=' +
+        publicInstanceID +
+        '&u=' +
+        encodeURIComponent(window.location.href) +
+        '&err=' +
         encodeURIComponent(err);
       document.body.appendChild(errImgTag);
       errImgTag.onload = function () {
