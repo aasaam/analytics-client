@@ -1408,7 +1408,13 @@
         typeof initializeData.pv === 'undefined' ||
         initializeData.pv === true
       ) {
-        instanceObject.pageView();
+        if (document.readyState !== 'loading') {
+          instanceObject.pageView();
+        } else {
+          document.addEventListener('DOMContentLoaded', function () {
+            instanceObject.pageView();
+          });
+        }
       } else if (typeof initializeData.pv === 'object') {
         instanceObject.pageView(initializeData.pv);
       }
