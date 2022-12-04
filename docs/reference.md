@@ -28,9 +28,10 @@ It's `String` that define which mode of analytics will be send into analytics se
 
 ## Specials
 
-| Key   | Description     |
-| ----- | --------------- |
-| `err` | Error reporting |
+| Key     | Description                 |
+| ------- | --------------------------- |
+| `err`   | Error reporting             |
+| `err_l` | Error reporting legacy mode |
 
 ## PublicInstanceID
 
