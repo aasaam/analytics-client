@@ -9,7 +9,7 @@ const {
   svgSample,
   nunjucks,
   maxURLTest,
-  maxURLPath,
+  maxURLPath
 } = require('./common');
 
 module.exports = async () => {
@@ -20,8 +20,8 @@ module.exports = async () => {
     https: {
       allowHTTP1: true,
       key: tlsPrivateKey,
-      cert: tlsPublicKey,
-    },
+      cert: tlsPublicKey
+    }
   });
 
   // @ts-ignore

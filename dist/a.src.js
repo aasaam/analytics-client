@@ -16,6 +16,31 @@
   const collectorURL = '__COLLECTOR_URL__';
   let publicInstanceID = '';
 
+  const getCircularReplacer = () => {
+    const seen = new WeakSet();
+    /**
+     * @param {String} key
+     * @param {any} value
+     */
+    return (key, value) => {
+      if (typeof value === 'object' && value !== null) {
+        if (seen.has(value)) {
+          return;
+        }
+        seen.add(value);
+      }
+      return value;
+    };
+  };
+
+  /**
+   * @param {any} o
+   * @returns {String}
+   */
+  const safeStringify = function safeStringify(o) {
+    return JSON.stringify(o, getCircularReplacer());
+  };
+
   /**
    * @param {String} message
    * @param {Error|any} err
@@ -34,7 +59,7 @@
     sendURL.searchParams.set('u', window.location.href);
     navigator.sendBeacon(
       sendURL.toString(),
-      JSON.stringify({
+      safeStringify({
         msg: message,
         err: err
           ? JSON.stringify(err, Object.getOwnPropertyNames(err))
@@ -169,7 +194,7 @@
       storageData[name] = item;
 
       // localStorage
-      localStorage.setItem(prefix, JSON.stringify(storageData));
+      localStorage.setItem(prefix, safeStringify(storageData));
 
       // cookie
       const expires = new Date();
@@ -177,7 +202,7 @@
       document.cookie =
         prefix +
         '=' +
-        window.btoa(JSON.stringify(storageData)) +
+        window.btoa(safeStringify(storageData)) +
         ';Expires=' +
         expires.toUTCString() +
         ';Path=/;SameSite=Lax';
@@ -821,8 +846,9 @@
             if (!timingInfo || window.performance.timeOrigin === 0) {
               return resolve(undefined);
             }
+
             try {
-              resolve(timingInfo.toJSON());
+              resolve(JSON.parse(safeStringify(timingInfo.toJSON())));
             } catch (e) {
               errorLog('timingInfo', e);
               return resolve(undefined);
@@ -861,7 +887,7 @@
     const performanceResources = function performanceResources() {
       try {
         return JSON.parse(
-          JSON.stringify(window.performance.getEntries())
+          safeStringify(window.performance.getEntries())
         ).filter(
           /**
            * @param {PerformanceEntry} entry
@@ -981,10 +1007,7 @@
           sendURL.searchParams.set(i[0], i[1]);
         });
 
-        navigator.sendBeacon(
-          sendURL.toString(),
-          JSON.stringify(postParameters)
-        );
+        navigator.sendBeacon(sendURL.toString(), safeStringify(postParameters));
       };
 
       /**
@@ -1306,7 +1329,7 @@
       instanceObject.pageView = function pageView(injectPayload) {
         processPageData(injectPayload)
           .then(function processPageDataSuccess(pageData) {
-            defaultPageData = JSON.parse(JSON.stringify(pageData));
+            defaultPageData = JSON.parse(safeStringify(pageData));
             sendData(
               {
                 i: initializeData.i,

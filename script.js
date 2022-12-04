@@ -22,6 +22,7 @@
   // condition for modern browser detect about ~ 90% total users
   // https://caniuse.com/mdn-javascript_builtins_promise_any
   if (
+    'WeakSet' in window &&
     'URLSearchParams' in window &&
     'entries' in Object &&
     'Promise' in window &&

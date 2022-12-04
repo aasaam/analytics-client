@@ -13,7 +13,7 @@ const {
   randomString,
   nunjucks,
   gifSingle,
-  fastifyCompress,
+  fastifyCompress
 } = require('./common');
 
 module.exports = async () => {
@@ -24,16 +24,16 @@ module.exports = async () => {
     https: {
       allowHTTP1: true,
       key: tlsPrivateKey,
-      cert: tlsPublicKey,
-    },
+      cert: tlsPublicKey
+    }
   });
 
   app.register(fastifyCors, {
-    origin: true,
+    origin: true
   });
 
   app.register(fastifyCompress, {
-    global: true,
+    global: true
   });
 
   app.all('/', (req, reply) => {
@@ -56,7 +56,7 @@ module.exports = async () => {
           method: req.method,
           l: req.url.length,
           query: JSON.parse(JSON.stringify(req.query)),
-          body,
+          body
         },
         { showHidden: false, depth: null, colors: true }
       )

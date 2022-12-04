@@ -16,43 +16,43 @@ let analyticServerURL = 'https://collector.aasaam-analytics.gw:7000';
 const BreadcrumbListSamples = require('./BreadcrumbListSamples');
 
 let scriptTagTemplate = readFileSync(`${__dirname}/../script.js`, {
-  encoding: 'utf8',
+  encoding: 'utf8'
 });
 
 let scriptModernTagTemplate = readFileSync(`${__dirname}/../script.modern.js`, {
-  encoding: 'utf8',
+  encoding: 'utf8'
 });
 
 let analyticsScript = readFileSync(`${__dirname}/../a.js`, {
-  encoding: 'utf8',
+  encoding: 'utf8'
 });
 
 let analyticsLegacyScript = readFileSync(`${__dirname}/../l.js`, {
-  encoding: 'utf8',
+  encoding: 'utf8'
 });
 
 let ampScriptTemplate = readFileSync(`${__dirname}/../amp.json`, {
-  encoding: 'utf8',
+  encoding: 'utf8'
 });
 
 if (process.env.RUN_DIST_MODE) {
   scriptTagTemplate = readFileSync(`${__dirname}/../dist/script.js`, {
-    encoding: 'utf8',
+    encoding: 'utf8'
   });
   scriptModernTagTemplate = readFileSync(
     `${__dirname}/../dist/script.modern.js`,
     {
-      encoding: 'utf8',
+      encoding: 'utf8'
     }
   );
   analyticsScript = readFileSync(`${__dirname}/../dist/a.js`, {
-    encoding: 'utf8',
+    encoding: 'utf8'
   });
   analyticsLegacyScript = readFileSync(`${__dirname}/../dist/l.js`, {
-    encoding: 'utf8',
+    encoding: 'utf8'
   });
   ampScriptTemplate = readFileSync(`${__dirname}/../dist/amp.json`, {
-    encoding: 'utf8',
+    encoding: 'utf8'
   });
 }
 
@@ -82,7 +82,7 @@ const tlsPrivateKey = readFileSync(join(__dirname, 'cert/hosts-key.pem'));
 const tlsPublicKey = readFileSync(join(__dirname, 'cert/server.pem'));
 
 const nunjucks = nunjucksRuntime.configure(`${__dirname}/templates`, {
-  autoescape: true,
+  autoescape: true
 });
 
 const fakerSeed = (id, lang) => {
@@ -224,7 +224,7 @@ const pageProps = (req) => {
   /** @type {InitializeData} */
   const initData = {
     i: publicHashID,
-    s: analyticServerURLLocal,
+    s: analyticServerURLLocal
   };
 
   if (Math.random() > 0.2) {
@@ -251,7 +251,7 @@ const pageProps = (req) => {
             .trim()}`,
           v: faker.lorem.words(),
           // @ts-ignore
-          s: i,
+          s: i
         });
       }
       console.log(initData.pv.sg);
@@ -272,7 +272,7 @@ const pageProps = (req) => {
     } else if (Math.random() > 0.2) {
       initData.pv.geo = {
         lat: randomIntFromTwo(-100, 100) + Math.random() * 2,
-        lon: randomIntFromTwo(-400, 400) + Math.random() * 2,
+        lon: randomIntFromTwo(-400, 400) + Math.random() * 2
       };
     }
   }
@@ -314,7 +314,7 @@ const pageProps = (req) => {
       `cu=${encodeURIComponent(pageURL)}`,
       `r=${encodeURIComponent(referrer)}`,
       `ei=${encodeURIComponent(`${id}`)}`,
-      `ec=page`,
+      `ec=page`
     ].join('&'),
     PageViewAMPImage: [
       `m=${PageViewAMPImage}`,
@@ -323,8 +323,8 @@ const pageProps = (req) => {
       `cu=${encodeURIComponent(pageURL)}`,
       `r=${encodeURIComponent(referrer)}`,
       `ei=${encodeURIComponent(`${id}`)}`,
-      `ec=page`,
-    ].join('&'),
+      `ec=page`
+    ].join('&')
   };
 };
 
@@ -349,5 +349,5 @@ module.exports = {
   fastifyCors,
   fastifyCookie,
   fastifyCompress,
-  analyticsLegacyScript,
+  analyticsLegacyScript
 };

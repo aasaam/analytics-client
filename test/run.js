@@ -8,12 +8,12 @@ const appAnalyticsMaker = require('./app-analytics');
 
 (async function () {
   const docs = fastify({
-    logger: false,
+    logger: false
   });
 
   // @ts-ignore
   docs.register(fastifyStatic, {
-    root: path.join(__dirname, '/../docs'),
+    root: path.join(__dirname, '/../docs')
   });
 
   (await appTestMaker()).listen({ port: 5000, host: '0.0.0.0' }, (e) => {
