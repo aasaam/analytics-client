@@ -162,12 +162,14 @@
       const localStorageData = localStorage.getItem(prefix);
       if (localStorageData) {
         storageData = storageParse(localStorageData);
+        debugLog('cid from localStorage');
       } else {
         const cookieMatched = document.cookie.match(
           new RegExp(escapeRegExp(prefix) + '=([a-zA-Z0-9=+/]+)')
         );
         if (cookieMatched) {
           storageData = storageParse(window.atob(trimString(cookieMatched[1])));
+          debugLog('cid from cookie');
         }
       }
       return storageData;
@@ -218,7 +220,7 @@
       if (storageData[name]) {
         /** @type {StorageItem} */
         const item = storageData[name];
-        if (item.e && item.e <= Date.now()) {
+        if (item.e && item.e < Date.now()) {
           return undefined;
         }
         return item.v;
@@ -952,6 +954,7 @@
           const parsedCID = cidParse(cid);
 
           if (parsedCID) {
+            debugLog('cid exist and parsed');
             const expireSession = new Date();
             expireSession.setTime(
               expireSession.getTime() - sessionDuration * 1000
@@ -961,9 +964,11 @@
             if (parsedCID.s < expireSession) {
               cid = cidGenerate(parsedCID.i, new Date(), parsedCID.r);
               cidSet(storagePrefix, cid);
+              debugLog('cid exist and new session set');
             } else {
               // session is active so there is no require for new cid
               cidNew = false;
+              debugLog('cid exist and with fresh session');
             }
           }
         }
@@ -971,6 +976,7 @@
         // generate local cid
         if (cidNew) {
           cid = cidGenerate();
+          debugLog('require generate new cid');
           cidSet(storagePrefix, cid);
         }
       }
@@ -1003,8 +1009,8 @@
       const sendData = function sendData(getParameters, postParameters) {
         const sendURL = new URL(collectorURL);
 
-        Object.entries(getParameters).forEach(function (i) {
-          sendURL.searchParams.set(i[0], i[1]);
+        Object.entries(getParameters).forEach(function ([key, value]) {
+          sendURL.searchParams.set(key, value);
         });
 
         navigator.sendBeacon(sendURL.toString(), safeStringify(postParameters));
@@ -1403,20 +1409,27 @@
         return instanceObject;
       };
 
+      /**
+       * @param {PageViewPayload|undefined} injectedPayload
+       */
+      const runPageView = function runPageView(injectedPayload) {
+        if (document.readyState !== 'loading') {
+          instanceObject.pageView(injectedPayload);
+        } else {
+          document.addEventListener('DOMContentLoaded', function () {
+            instanceObject.pageView(injectedPayload);
+          });
+        }
+      };
+
       // if `true` or not set page view triggered with default values
       if (
         typeof initializeData.pv === 'undefined' ||
         initializeData.pv === true
       ) {
-        if (document.readyState !== 'loading') {
-          instanceObject.pageView();
-        } else {
-          document.addEventListener('DOMContentLoaded', function () {
-            instanceObject.pageView();
-          });
-        }
+        runPageView(undefined);
       } else if (typeof initializeData.pv === 'object') {
-        instanceObject.pageView(initializeData.pv);
+        runPageView(initializeData.pv);
       }
 
       instanceObject.cid = function getCID() {
@@ -1427,6 +1440,7 @@
             i: cidParsed.i,
             s: cidParsed.s,
             r: cidParsed.r,
+            ru: cidParsed.i < cidParsed.s,
             p: cidParsed.i.getTime().toString() + cidParsed.r
           };
         }

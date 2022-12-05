@@ -564,6 +564,11 @@ interface PublicCIDData {
    * Persist part
    */
   p: string;
+
+  /**
+   * Is returned User
+   */
+  ru: boolean;
 }
 
 type SegmentScope = 1 | 2 | 3 | 4 | 5;

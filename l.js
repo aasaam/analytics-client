@@ -38,7 +38,7 @@
       var targetURL =
         collectorURL +
         '/?m=err&i=' +
-        publicInstanceID +
+        encodeURIComponent(publicInstanceID) +
         '&u=' +
         encodeURIComponent(window.location.href);
       xmlHTTPReq.open('POST', targetURL);
@@ -60,7 +60,7 @@
         'https://' +
         initializeData.s +
         '/?m=err_l&i=' +
-        publicInstanceID +
+        encodeURIComponent(publicInstanceID) +
         '&u=' +
         encodeURIComponent(window.location.href) +
         '&err=' +
