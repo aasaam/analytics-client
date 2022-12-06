@@ -838,14 +838,15 @@
       waitTime
     ) {
       return new Promise(function resolveFunction(resolve) {
-        if (
-          'performance' in window &&
-          'timeOrigin' in window.performance &&
-          'timeOrigin' in window.performance
-        ) {
+        if ('performance' in window && 'timeOrigin' in window.performance) {
           const timingInfo = window.performance;
           setTimeout(function timeoutFunction() {
-            if (!timingInfo || window.performance.timeOrigin === 0) {
+            if (
+              !timingInfo ||
+              !timingInfo.timeOrigin ||
+              timingInfo.timeOrigin === 0 ||
+              !('toJSON' in timingInfo)
+            ) {
               return resolve(undefined);
             }
 
