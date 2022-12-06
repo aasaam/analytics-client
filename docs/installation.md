@@ -128,18 +128,20 @@ Send event without client library
  * */
 navigator.sendBeacon(
   'https://collector.your-organization.tld/?m=e_sw&i=0123456789az',
-  JSON.stringify([
-    {
-      // requirements
-      c: 'event_category', // must be /^[a-z0-9_]{1,31}$/
-      a: 'event_a_action', // must be /^[a-z0-9_]{1,31}$/
+  JSON.stringify({
+    ev: [
+      {
+        // requirements
+        c: 'event_category', // must be /^[a-z0-9_]{1,31}$/
+        a: 'event_a_action', // must be /^[a-z0-9_]{1,31}$/
 
-      // optional
-      l: 'Something awesome happened, did you know?', // optional any string you like
-      id: '', // identification must be  /^[a-zA-Z0-9-_\/]{1,63}$/
-      v: 1, // integer v > 0
-    },
-    // and multiple event could be added also
-  ])
+        // optional
+        l: 'Something awesome happened, did you know?', // optional any string you like
+        id: '', // identification must be  /^[a-zA-Z0-9-_\/]{1,63}$/
+        v: 1 // integer v > 0
+      }
+      // and multiple event could be added also
+    ]
+  })
 );
 ```
