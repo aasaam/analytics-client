@@ -189,7 +189,7 @@
       /** @type {StorageItem} */
       const item = {
         v: value,
-        e: ttl ? Date.now() + ttl * 1000 : 86400000
+        e: ttl ? Date.now() + ttl * 1000 : undefined
       };
 
       // save
@@ -947,14 +947,16 @@
 
       let cid = cidGet(storagePrefix);
       /** ClientIdentifier */
+
       {
         let cidNew = true;
 
-        // cid exist
+        // cid exist, user exist
         if (cid) {
           const parsedCID = cidParse(cid);
 
           if (parsedCID) {
+            cidNew = false;
             debugLog('cid exist and parsed');
             const expireSession = new Date();
             expireSession.setTime(
@@ -966,15 +968,11 @@
               cid = cidGenerate(parsedCID.i, new Date(), parsedCID.r);
               cidSet(storagePrefix, cid);
               debugLog('cid exist and new session set');
-            } else {
-              // session is active so there is no require for new cid
-              cidNew = false;
-              debugLog('cid exist and with fresh session');
             }
           }
         }
 
-        // generate local cid
+        // generate fresh new user and session
         if (cidNew) {
           cid = cidGenerate();
           debugLog('require generate new cid');
