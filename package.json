@@ -31,7 +31,7 @@
     "fastify": "^4",
     "nunjucks": "^3",
     "prettier": "^2",
-    "typescript": "^4",
+    "typescript": "^5",
     "uglify-js": "^3"
   }
 }
