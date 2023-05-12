@@ -19,7 +19,7 @@
     "lint": "eslint"
   },
   "devDependencies": {
-    "@faker-js/faker": "^7",
+    "@faker-js/faker": "^8",
     "@fastify/compress": "^6",
     "@fastify/cookie": "^8",
     "@fastify/cors": "^8",
