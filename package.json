@@ -24,7 +24,7 @@
     "@fastify/cookie": "^8",
     "@fastify/cors": "^8",
     "@fastify/static": "^6",
-    "@types/node": "^18",
+    "@types/node": "^20",
     "eslint-plugin-import": "^2",
     "eslint-plugin-prettier": "^4",
     "eslint": "^8",
